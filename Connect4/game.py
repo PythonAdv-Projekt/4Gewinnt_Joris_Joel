@@ -25,12 +25,16 @@ class Connect4:
         """ 
         Init a Connect 4 Game
             - Create an empty Board
-            - Create to (non - registered and empty) players.
+            - Create two (non - registered and empty) players.
             - Set the Turn Counter to 0
             - Set the Winner to False
             - etc.
         """
-       # TODO
+        self.Board = np.zeros(7,8)
+        self.player1 = None
+        self.player2 = None
+        self.turncounter = 0
+        self.winner = False
         raise NotImplementedError(f"You need to write this code first")
 
     """
@@ -57,7 +61,7 @@ class Connect4:
         Returns:
             icon:       Player Icon (or None if failed)
         """
-        # TODO
+        
         raise NotImplementedError(f"You need to write this code first")
 
 

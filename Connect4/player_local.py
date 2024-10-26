@@ -21,7 +21,11 @@ class Player_Local(Player):
         """
         super().__init__()  # Initialize id and icon from the abstract Player class
 
-       # TODO
+        self.game = kwargs['game']
+        
+        
+
+
         raise NotImplementedError(f"You need to write this code first")
 
     def register_in_game(self) -> str:
@@ -31,7 +35,13 @@ class Player_Local(Player):
         Returns:
             str: The player's icon.
         """
-        # TODO
+        id = Connect4.register_player()
+        
+        
+
+        return f"{self.player}"
+
+
         raise NotImplementedError(f"You need to write this code first")
 
     def is_my_turn(self) -> bool:
@@ -41,7 +51,8 @@ class Player_Local(Player):
         Returns:
             bool: True if it's the player's turn, False otherwise.
         """
-        # TODO
+        Connect4.get_status()
+
         raise NotImplementedError(f"You need to write this code first")
 
     def get_game_status(self):
@@ -52,7 +63,8 @@ class Player_Local(Player):
             - what turn is it?
       
         """
-        # TODO
+        Connect4.get_status()
+
         raise NotImplementedError(f"You need to write this code first")
 
     def make_move(self) -> int:
