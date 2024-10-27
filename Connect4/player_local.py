@@ -76,8 +76,6 @@ class Player_Local(Player):
                             self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
                             print(f"Player {self.icon} placed a chip in column {column}")
                             return column
-                    #If the for-loop exits, it means that the column is full
-                    print(f"Column {column} is already full. Choose another column.")
                 else:
                     # Invalid move, when check_move returns false
                     print(f"Invalid move! Please try again.")
