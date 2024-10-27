@@ -61,9 +61,14 @@ class Connect4:
         Returns:
             icon:       Player Icon (or None if failed)
         """
-        
-        raise NotImplementedError(f"You need to write this code first")
-
+        if self.player1 is None:
+            self.player1 = {"id": player_id, "icon": "X"}
+            return "X"
+        elif self.player2 is None:
+            self.player2 = {"id": player_id, "icon": "O"}
+            return "O"
+        else:
+            return None
 
     def get_board(self)-> np.ndarray:
         """ 

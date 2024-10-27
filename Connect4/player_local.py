@@ -35,15 +35,12 @@ class Player_Local(Player):
         Returns:
             str: The player's icon.
         """
-        id = Connect4.register_player()
+        self.icon = self.game.register_player(self.id)
+        if self.icon is None:
+            raise ValueError("Failed to register the player in the game")
         
+        return self.icon
         
-
-        return f"{self.player}"
-
-
-        raise NotImplementedError(f"You need to write this code first")
-
     def is_my_turn(self) -> bool:
         """ 
         Check if it is the player's turn.
