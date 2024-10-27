@@ -48,7 +48,7 @@ class Connect4:
             - what turn is it?
         """
         # TODO
-        
+
         raise NotImplementedError(f"You need to write this code first")
 
     def register_player(self, player_id:uuid.UUID)->str:
@@ -91,9 +91,16 @@ class Connect4:
             col (int):      Selected Column of Coin Drop
             player (str):   Player ID 
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        #Checking if column number is valid
+        if column < 0 or column >= self.Board.shape[1]:
+            return False
         
+        #Cheching column has space left
+        if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
+            return False
+        
+        return True
+
     """ 
     Internal Method (for Game Logic)
     """
