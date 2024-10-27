@@ -78,8 +78,8 @@ class Connect4:
         Returns:
             board
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        #Return the current board
+        return self.Board
 
 
     def check_move(self, column:int, player_Id:uuid.UUID) -> bool:
