@@ -48,6 +48,7 @@ class Connect4:
             - what turn is it?
         """
         # TODO
+        
         raise NotImplementedError(f"You need to write this code first")
 
     def register_player(self, player_id:uuid.UUID)->str:

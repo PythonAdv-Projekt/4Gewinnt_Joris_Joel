@@ -23,11 +23,6 @@ class Player_Local(Player):
 
         self.game = kwargs['game']
         
-        
-
-
-        raise NotImplementedError(f"You need to write this code first")
-
     def register_in_game(self) -> str:
         """
         Register the player in the game and assign the player an icon.
@@ -71,8 +66,24 @@ class Player_Local(Player):
         Returns:
             int: The column chosen by the player for the move.
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        while True:
+            try:
+                column = int(input(f"Player {self.icon}, enter the column (0-7) where you wanna drop your chip"))
+                if self.game.check_move(column, self.id): #if check_move returns True, we check if the column has space left and the place the chip
+                    # Find the lowest available row in the selected column
+                    for row in range(6,-1,-1):
+                        if self.game.Board[row, column] == 0: #Checking for an empty cell
+                            self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
+                            print(f"Player {self.icon} placed a chip in column {column}")
+                            return column
+                    #If the for-loop exits, it means that the column is full
+                    print(f"Column {column} is already full. Choose another column.")
+                else:
+                    # Invalid move, when check_move returns false
+                    print(f"Invalid move! Please try again.")
+            except ValueError:
+                # ValueError is generated when e.g. the inpust is not an integer.
+                print("Invalid input: Please enter a number between 0-7")
 
     def visualize(self) -> None:
         """
