@@ -87,8 +87,9 @@ class Player_Local(Player):
         """
         Visualize the current state of the Connect 4 board by printing it to the console.
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        #get current board by calling the get_board() Method
+        board = self.game.get_board()
+        print(board)
 
 
     def celebrate_win(self) -> None:

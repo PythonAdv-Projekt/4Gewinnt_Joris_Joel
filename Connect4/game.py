@@ -30,7 +30,7 @@ class Connect4:
             - Set the Winner to False
             - etc.
         """
-        self.Board = np.zeros(7,8)
+        self.Board = np.zeros((7,8),dtype=object)
         self.player1 = None
         self.player2 = None
         self.turncounter = 0
