@@ -33,6 +33,7 @@ class Connect4:
         self.Board = np.zeros((7,8),dtype=object)
         self.player1 = None
         self.player2 = None
+        self.active_player = {"id": None, "icon": None}
         self.turncounter = 0
         self.winner = False
         raise NotImplementedError(f"You need to write this code first")
@@ -47,7 +48,7 @@ class Connect4:
             - is there a winner? if so who?
             - what turn is it?
         """
-        # TODO
+        return f"Active Player: {self.active_player["icon"]}"
 
         raise NotImplementedError(f"You need to write this code first")
 
@@ -91,6 +92,12 @@ class Connect4:
             col (int):      Selected Column of Coin Drop
             player (str):   Player ID 
         """
+        #setting Active Player
+        self.active_player["id"] = player_Id
+        #Checking if Id matches with Player who wants to make a move
+        if player_Id != self.player1["id"] and player_Id != self.player2["id"]:
+            return False
+
         #Checking if column number is valid
         if column < 0 or column >= self.Board.shape[1]:
             return False
@@ -112,9 +119,17 @@ class Connect4:
             - winner
             - turn_number
         """
+        #Updating the Active Player and the ID
+        if self.check_move == True:
 
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+            self.turncounter += 1
+
+            if self.active_player["id"] == self.player1["id"]:
+                self.active_player["id"] = self.player2["id"]
+                self.active_player["icon"] = self.player2["icon"]
+            else:
+                self.active_player["id"] = self.player1["id"]
+                self.active_player["icon"] = self.player1["icon"]
     
 
     def __detect_win(self)->bool:
