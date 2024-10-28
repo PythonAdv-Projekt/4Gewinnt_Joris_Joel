@@ -119,8 +119,8 @@ class Connect4:
             - winner
             - turn_number
         """
-        #Updating the Active Player and the ID
-        if self.check_move == True:
+        #Updating the Active Player, the ID and the turncounter
+        if self.check_move():
 
             self.turncounter += 1 #Increase the turn counter by 1
 
@@ -130,6 +130,10 @@ class Connect4:
             else:
                 self.active_player["id"] = self.player1["id"]
                 self.active_player["icon"] = self.player1["icon"]
+
+        #checking if there's a winner
+        if not self.winner and self.__detect_win():
+            self.winner = self.active_player
     
 
     def __detect_win(self)->bool:
