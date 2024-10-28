@@ -48,9 +48,13 @@ class Connect4:
             - is there a winner? if so who?
             - what turn is it?
         """
-        return f"Active Player: {self.active_player["icon"]}"
-
-        raise NotImplementedError(f"You need to write this code first")
+        status = {
+            "active_player": self.active_player["icon"],
+            "winner": self.winner if self.winner else "No winner yet",
+            "turn number": self.turncounter
+        }
+        
+        return status
 
     def register_player(self, player_id:uuid.UUID)->str:
         """ 
