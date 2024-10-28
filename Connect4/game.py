@@ -155,11 +155,26 @@ class Connect4:
             for row in range(rows-3):
                 if (self.Board[row,col] == self.active_player["icon"] and
                     self.Board[row + 1,col] == self.active_player["icon"] and
-                    self.Board[row + 2,] == self.active_player["icon"] and
+                    self.Board[row + 2,col] == self.active_player["icon"] and
                     self.Board[row + 3,col] == self.active_player["icon"]):
                     return True
                 
-        #Checking if theres a winner diagonally
+        #Checking if theres a winner diagonally from left to right
+        for col in range(cols-3):
+            for row in range(rows-3):
+                if (self.Board[row,col] == self.active_player["icon"] and
+                    self.Board[row+1,col+1] == self.active_player["icon"] and
+                    self.Board[row+2,col+2] == self.active_player["icon"] and
+                    self.Board[row+3,col+3] == self.active_player["icon"]):
+                    return True
+        
+        #Checking if there a winner diagonally from right to left
+        for col in range(cols-1,2,-1):
+            for row in range(rows-3):
+                if (self.Board[row,col] == self.active_player["icon"] and
+                    self.Board[row+1,col-1] == self.active_player["icon"] and
+                    self.Board[row+2,col-2] == self.active_player["icon"] and
+                    self.Board[row+3,col-3] == self.active_player["icon"]):
+                    return True
 
-
-        raise NotImplementedError(f"You need to write this code first")
+        return False
