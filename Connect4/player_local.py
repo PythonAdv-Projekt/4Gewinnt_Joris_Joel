@@ -43,9 +43,12 @@ class Player_Local(Player):
         Returns:
             bool: True if it's the player's turn, False otherwise.
         """
-        Connect4.get_status()
+        #Checking if the Active Player in the Game is the same as the Attribute
+        if self.game.active_player["icon"] and self.game.active_player["id"] == self.id:
+            return True
 
-        raise NotImplementedError(f"You need to write this code first")
+        else:
+            return False
 
     def get_game_status(self):
         """
@@ -55,7 +58,7 @@ class Player_Local(Player):
             - what turn is it?
       
         """
-        Connect4.get_status()
+        self.game.get_status()
 
         raise NotImplementedError(f"You need to write this code first")
 

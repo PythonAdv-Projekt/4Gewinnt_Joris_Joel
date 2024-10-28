@@ -122,7 +122,7 @@ class Connect4:
         #Updating the Active Player and the ID
         if self.check_move == True:
 
-            self.turncounter += 1
+            self.turncounter += 1 #Increase the turn counter by 1
 
             if self.active_player["id"] == self.player1["id"]:
                 self.active_player["id"] = self.player2["id"]
@@ -138,6 +138,28 @@ class Connect4:
         
         Returns:
             True if there's a winner, False otherwise
-        """    
-        # TODO
+        """  
+        #save rows and cols into a variable
+        rows , cols = self.Board.shape
+        #Checking if there is a Winner Horizontaly
+        for row in range(rows):
+            for col in range(cols-3):
+                if (self.Board[row,col] == self.active_player["icon"] and
+                    self.Board[row,col + 1] == self.active_player["icon"] and
+                    self.Board[row,col + 2] == self.active_player["icon"] and
+                    self.Board[row,col + 3] == self.active_player["icon"]):
+                    return True
+        
+        # Checking if there is a Winner Vertically
+        for col in range(cols):
+            for row in range(rows-3):
+                if (self.Board[row,col] == self.active_player["icon"] and
+                    self.Board[row + 1,col] == self.active_player["icon"] and
+                    self.Board[row + 2,] == self.active_player["icon"] and
+                    self.Board[row + 3,col] == self.active_player["icon"]):
+                    return True
+                
+        #Checking if theres a winner diagonally
+
+
         raise NotImplementedError(f"You need to write this code first")
