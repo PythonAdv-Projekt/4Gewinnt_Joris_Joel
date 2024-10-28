@@ -44,7 +44,7 @@ class Player_Local(Player):
             bool: True if it's the player's turn, False otherwise.
         """
         #Checking if the Active Player in the Game is the same as the Attribute
-        if self.game.active_player["icon"] and self.game.active_player["id"] == self.id:
+        if self.game.active_player["icon"] == self.icon and self.game.active_player["id"] == self.id:
             return True
 
         else:
