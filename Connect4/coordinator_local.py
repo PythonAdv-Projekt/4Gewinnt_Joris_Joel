@@ -41,23 +41,22 @@ class Coordinator_Local:
             1. We have to registrate the Players
         """
         # register Player 1
-        
         self.player1.register_in_game()
         # register Player 2
-        
-        
+        self.player2.register_in_game()
+        #Set Starting Player to player1
+        self.game.active_player["id"] = self.player1.id
+        self.game.active_player["icon"] = self.player1.icon
 
-       
-            
-        self.player1.get_game_status()
-        self.player1.visualize()
-        self.player1.make_move()
-            
-            
+        #Gameflow
 
-
-        
-
+        while not self.game.winner:
+            if self.player1.get_game_status():
+                self.player1.visualize()
+                self.player1.make_move()
+            else:
+                self.player2.visualize()
+                self.player2.make_move()
 
 
 if __name__ == "__main__":

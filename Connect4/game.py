@@ -111,6 +111,7 @@ class Connect4:
             return False
         
         return True
+        self.__update_status()
 
     """ 
     Internal Method (for Game Logic)
@@ -124,16 +125,16 @@ class Connect4:
             - turn_number
         """
         #Updating the Active Player, the ID and the turncounter
-        if self.check_move():
+        
 
-            self.turncounter += 1 #Increase the turn counter by 1
+        self.turncounter += 1 #Increase the turn counter by 1
 
-            if self.active_player["id"] == self.player1["id"]:
-                self.active_player["id"] = self.player2["id"]
-                self.active_player["icon"] = self.player2["icon"]
-            else:
-                self.active_player["id"] = self.player1["id"]
-                self.active_player["icon"] = self.player1["icon"]
+        if self.active_player["id"] == self.player1["id"]:
+            self.active_player["id"] = self.player2["id"]
+            self.active_player["icon"] = self.player2["icon"]
+        else:
+            self.active_player["id"] = self.player1["id"]
+            self.active_player["icon"] = self.player1["icon"]
 
         #checking if there's a winner
         if not self.winner and self.__detect_win():
