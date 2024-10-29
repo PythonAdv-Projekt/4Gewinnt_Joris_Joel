@@ -60,7 +60,7 @@ class Player_Local(Player):
         """
         self.game.get_status()
 
-        raise NotImplementedError(f"You need to write this code first")
+        
 
     def make_move(self) -> int:
         """ 
@@ -99,5 +99,9 @@ class Player_Local(Player):
         """
         Celebration of Local CLI Player
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        celebration = self.get_game_status()
+        if celebration["winner"] == True:
+            print("Congrats you have won the Game now you can celebrate.")
+            
+
+        

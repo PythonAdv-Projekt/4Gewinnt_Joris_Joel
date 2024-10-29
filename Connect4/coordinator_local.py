@@ -17,13 +17,16 @@ class Coordinator_Local:
         player1 (Player):   Local Instance of a Player 
         player2 (Player):   Local Instance of a Player
     """
+    
 
     def __init__(self) -> None:
         """
         Initialize the Coordinator_Local with a Game and 2 Players
         """
-        # TODO
-        raise NotImplementedError(f"You need to write this code first")
+        self.game = Connect4()
+        self.player1 = Player()
+        self.player2 = Player()
+        
     
 
     def play(self):
@@ -32,8 +35,15 @@ class Coordinator_Local:
         
             This method handles player registration, turn management, 
             and checking for a winner until the game concludes.
+            
+            1. We have to registrate the Players
         """
-        # TODO
+        # register Player 1
+        self.game.register_player(1)
+        self.player1.register_in_game()
+        # register Player 2
+        self.game.register_player(2)
+        self.player1.register_in_game()
         raise NotImplementedError(f"You need to write this code first")
 
 
