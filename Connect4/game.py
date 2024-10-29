@@ -36,7 +36,7 @@ class Connect4:
         self.active_player = {"id": None, "icon": None}
         self.turncounter = 0
         self.winner = False
-        raise NotImplementedError(f"You need to write this code first")
+        
 
     """
     Methods to be exposed to the API later on

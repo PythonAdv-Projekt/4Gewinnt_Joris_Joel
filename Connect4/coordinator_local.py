@@ -2,6 +2,8 @@
 
 from game import Connect4
 from player import Player
+from player_local import Player_Local
+
 
 
 class Coordinator_Local:
@@ -24,8 +26,8 @@ class Coordinator_Local:
         Initialize the Coordinator_Local with a Game and 2 Players
         """
         self.game = Connect4()
-        self.player1 = Player()
-        self.player2 = Player()
+        self.player1 = Player_Local(game = self.game)
+        self.player2 = Player_Local(game = self.game)
         
     
 
@@ -39,17 +41,28 @@ class Coordinator_Local:
             1. We have to registrate the Players
         """
         # register Player 1
-        self.game.register_player(1)
+        
         self.player1.register_in_game()
         # register Player 2
-        self.game.register_player(2)
-        self.player1.register_in_game()
-        raise NotImplementedError(f"You need to write this code first")
+        
+        
+
+       
+            
+        self.player1.get_game_status()
+        self.player1.visualize()
+        self.player1.make_move()
+            
+            
+
+
+        
 
 
 
 if __name__ == "__main__":
-    # Create a coordinator
+    coordinator = Coordinator_Local()
+    coordinator.play()
     # play a game
     # TODO
-    raise NotImplementedError(f"You need to write this code first")
+    
