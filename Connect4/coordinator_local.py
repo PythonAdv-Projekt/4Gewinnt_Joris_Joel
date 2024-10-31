@@ -50,13 +50,20 @@ class Coordinator_Local:
 
         #Gameflow
 
-        while not self.game.winner:
-            if self.player1.get_game_status():
+        while True:
+            
+            if self.player1.is_my_turn():
                 self.player1.visualize()
                 self.player1.make_move()
-            else:
+                
+                
+            if self.player2.is_my_turn():
                 self.player2.visualize()
                 self.player2.make_move()
+                
+                
+
+            
 
 
 if __name__ == "__main__":

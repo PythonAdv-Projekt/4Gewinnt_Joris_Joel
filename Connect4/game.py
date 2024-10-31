@@ -96,8 +96,7 @@ class Connect4:
             col (int):      Selected Column of Coin Drop
             player (str):   Player ID 
         """
-        #setting Active Player
-        self.active_player["id"] = player_Id
+        
         #Checking if Id matches with Player who wants to make a move
         if player_Id != self.player1["id"] and player_Id != self.player2["id"]:
             return False
@@ -109,9 +108,9 @@ class Connect4:
         #Cheching column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
-        
-        return True
         self.__update_status()
+        return True
+        
 
     """ 
     Internal Method (for Game Logic)
@@ -125,17 +124,16 @@ class Connect4:
             - turn_number
         """
         #Updating the Active Player, the ID and the turncounter
-        
-
-        self.turncounter += 1 #Increase the turn counter by 1
-
         if self.active_player["id"] == self.player1["id"]:
+            self.turncounter += 1 
             self.active_player["id"] = self.player2["id"]
             self.active_player["icon"] = self.player2["icon"]
+
         else:
+            self.turncounter += 1 
             self.active_player["id"] = self.player1["id"]
             self.active_player["icon"] = self.player1["icon"]
-
+            
         #checking if there's a winner
         if not self.winner and self.__detect_win():
             self.winner = self.active_player
