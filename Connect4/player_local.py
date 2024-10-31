@@ -72,6 +72,7 @@ class Player_Local(Player):
             try:
                 column = int(input(f"Player {self.icon}, enter the column (0-7) where you wanna drop your chip"))
                 if self.game.check_move(column, self.id): #if check_move returns True, we check if the column has space left and the place the chip
+                    self.game.status_good = True
                     # Find the lowest available row in the selected column
                     for row in range(6,-1,-1):
                         if self.game.Board[row, column] == 0: #Checking for an empty cell

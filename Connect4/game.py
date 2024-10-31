@@ -36,6 +36,7 @@ class Connect4:
         self.active_player = {"id": None, "icon": None}
         self.turncounter = 0
         self.winner = None
+        self.status_good = None
         
 
     """
@@ -48,6 +49,9 @@ class Connect4:
             - is there a winner? if so who?
             - what turn is it?
         """
+        if self.status_good:
+            self.__update_status()
+        
         status = {
             "active_player": self.active_player["icon"],
             "winner": self.winner,
