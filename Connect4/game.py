@@ -36,7 +36,7 @@ class Connect4:
         self.active_player = {"id": None, "icon": None}
         self.turncounter = 0
         self.winner = None
-        self.status_good = None
+        
         
 
     """
@@ -49,8 +49,8 @@ class Connect4:
             - is there a winner? if so who?
             - what turn is it?
         """
-        if self.status_good:
-            self.__update_status()
+        
+        self.__update_status()
         
         status = {
             "active_player": self.active_player["icon"],
@@ -128,6 +128,9 @@ class Connect4:
             - winner
             - turn_number
         """
+        #checking if there's a winner
+        if not self.winner and self.__detect_win():
+            self.winner = self.active_player
       
         #Updating the Active Player, the ID and the turncounter
         if self.active_player["id"] == self.player1["id"]:
@@ -140,9 +143,6 @@ class Connect4:
             self.active_player["id"] = self.player1["id"]
             self.active_player["icon"] = self.player1["icon"]
             
-        #checking if there's a winner
-        if not self.winner and self.__detect_win():
-            self.winner = self.active_player
     
 
     def __detect_win(self)->bool:

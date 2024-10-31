@@ -56,16 +56,24 @@ class Coordinator_Local:
             if self.player1.is_my_turn():
 
                 self.player1.visualize()
-                self.player1.celebrate_win()
                 self.player1.make_move()
+                status = self.player1.get_game_status()
+                print(status)
+                winner_found = status.get("winner")
+                if winner_found != None:
+                    self.player1.celebrate_win()
                 
                 
                 
                 
             if self.player2.is_my_turn():
                 self.player2.visualize()
-                self.player2.celebrate_win()
                 self.player2.make_move()
+                status = self.player2.get_game_status()
+                print(status)
+                winner_found = status.get("winner")
+                if winner_found != None:
+                    self.player2.celebrate_win()
                 
                 
 
@@ -78,6 +86,5 @@ class Coordinator_Local:
 if __name__ == "__main__":
     coordinator = Coordinator_Local()
     coordinator.play()
-    # play a game
-    # TODO
+
     
