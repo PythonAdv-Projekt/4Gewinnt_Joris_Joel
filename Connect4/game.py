@@ -35,7 +35,7 @@ class Connect4:
         self.player2 = None
         self.active_player = {"id": None, "icon": None}
         self.turncounter = 0
-        self.winner = False
+        self.winner = None
         
 
     """
@@ -50,7 +50,7 @@ class Connect4:
         """
         status = {
             "active_player": self.active_player["icon"],
-            "winner": self.winner if self.winner else "No winner yet",
+            "winner": self.winner,
             "turn number": self.turncounter
         }
         
@@ -108,7 +108,8 @@ class Connect4:
         #Cheching column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
-        self.__update_status()
+        
+        
         return True
         
 
@@ -123,6 +124,7 @@ class Connect4:
             - winner
             - turn_number
         """
+      
         #Updating the Active Player, the ID and the turncounter
         if self.active_player["id"] == self.player1["id"]:
             self.turncounter += 1 

@@ -58,10 +58,9 @@ class Player_Local(Player):
             - what turn is it?
       
         """
-        self.game.get_status()
-
         
-
+        return self.game.get_status()
+        
     def make_move(self) -> int:
         """ 
         Prompt the physical player to enter a move via the console.
@@ -100,8 +99,12 @@ class Player_Local(Player):
         Celebration of Local CLI Player
         """
         celebration = self.get_game_status()
-        if celebration["winner"] == True:
+        
+        
+        winner_found = celebration.get("winner")
+        if winner_found !=None:
             print("Congrats you have won the Game now you can celebrate.")
+        print(celebration)
             
 
         
