@@ -58,10 +58,11 @@ class Coordinator_Local:
                 self.player1.visualize()
                 self.player1.make_move()
                 status = self.player1.get_game_status()
-                print(status)
+                #print(status)
                 winner_found = status.get("winner")
                 if winner_found != None:
                     self.player1.celebrate_win()
+                    return
                 
                 
                 
@@ -70,10 +71,11 @@ class Coordinator_Local:
                 self.player2.visualize()
                 self.player2.make_move()
                 status = self.player2.get_game_status()
-                print(status)
+                #print(status)
                 winner_found = status.get("winner")
                 if winner_found != None:
                     self.player2.celebrate_win()
+                    return
                 
                 
 
