@@ -4,6 +4,7 @@ from game import Connect4
 from player import Player
 
 
+
 class Player_Local(Player):
     """ 
     Local Player (uses Methods of the Game directly).
@@ -92,8 +93,13 @@ class Player_Local(Player):
         #get current board by calling the get_board() Method
         board = self.game.get_board()
         for row in board:
-            print(" | ".join(map(str, row)))
-
+            # Check each element, printing "X" in red and "O" in green
+            print(" | ".join(
+                "\033[91mX\033[0m" if cell == "X" else
+                "\033[92mO\033[0m" if cell == "O" else
+                str(cell)
+                for cell in row
+            ))
 
     def celebrate_win(self) -> None:
         """
