@@ -91,7 +91,8 @@ class Player_Local(Player):
         """
         #get current board by calling the get_board() Method
         board = self.game.get_board()
-        print(board)
+        for row in board:
+            print(" | ".join(map(str, row)))
 
 
     def celebrate_win(self) -> None:
@@ -103,7 +104,7 @@ class Player_Local(Player):
         
         #winner_found = celebration.get("winner")
         #if winner_found !=None:
-        print("Congrats you have won the Game now you can celebrate.")
+        print(f"Congrats! Player {self.game.active_player['icon']} you have won the Game now you can celebrate.")
         #print(celebration)
             
 

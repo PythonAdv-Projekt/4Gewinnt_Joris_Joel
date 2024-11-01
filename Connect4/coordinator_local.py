@@ -61,6 +61,7 @@ class Coordinator_Local:
                 #print(status)
                 winner_found = status.get("winner")
                 if winner_found != None:
+                    self.player1.visualize()
                     self.player1.celebrate_win()
                     return
                 
@@ -74,6 +75,7 @@ class Coordinator_Local:
                 #print(status)
                 winner_found = status.get("winner")
                 if winner_found != None:
+                    self.player2.visualize()
                     self.player2.celebrate_win()
                     return
                 

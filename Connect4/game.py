@@ -131,17 +131,18 @@ class Connect4:
         #checking if there's a winner
         if not self.winner and self.__detect_win():
             self.winner = self.active_player
-      
-        #Updating the Active Player, the ID and the turncounter
-        if self.active_player["id"] == self.player1["id"]:
-            self.turncounter += 1 
-            self.active_player["id"] = self.player2["id"]
-            self.active_player["icon"] = self.player2["icon"]
 
-        else:
-            self.turncounter += 1 
-            self.active_player["id"] = self.player1["id"]
-            self.active_player["icon"] = self.player1["icon"]
+        if not self.winner:
+            #Updating the Active Player, the ID and the turncounter
+            if self.active_player["id"] == self.player1["id"]:
+                self.turncounter += 1 
+                self.active_player["id"] = self.player2["id"]
+                self.active_player["icon"] = self.player2["icon"]
+
+            else:
+                self.turncounter += 1 
+                self.active_player["id"] = self.player1["id"]
+                self.active_player["icon"] = self.player1["icon"]
             
     
 
