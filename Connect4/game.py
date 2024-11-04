@@ -30,12 +30,12 @@ class Connect4:
             - Set the Winner to False
             - etc.
         """
-        self.Board = np.zeros((7,8),dtype=object)
-        self.player1 = None
-        self.player2 = None
-        self.active_player = {"id": None, "icon": None}
-        self.turncounter = 0
-        self.winner = None
+        self.Board:np.ndarray = np.zeros((7,8),dtype=object)
+        self.player1:dict = None
+        self.player2:dict = None
+        self.active_player:dict = {"id": None, "icon": None}
+        self.turncounter:int = 0
+        self.winner:bool = None
         
         
 
@@ -44,10 +44,16 @@ class Connect4:
     """
     def get_status(self):
         """
-        Get the game's status.
-            - active player (id or icon)
-            - is there a winner? if so who?
-            - what turn is it?
+        Uses the __update.status Method to Update the Status and returns the updatet Status.
+        - Who is the Active Player.
+        - Is there a Winner.
+        - Which turn is it.
+
+        Parameters:
+            None
+
+        Returns:
+            dict: Returns a Dictionary of the Actual Status of the Game
         """
         
         self.__update_status()
@@ -62,15 +68,16 @@ class Connect4:
 
     def register_player(self, player_id:uuid.UUID)->str:
         """ 
-        Register a player with a unique ID
-            Save his ID as one of the local players
+        Registers a Player with a uuid  and Saves the Player to 
+        a Attribut in form of a Dictionary which contains the player_id and the icon.
         
         Parameters:
             player_id (UUID)    Unique ID
 
         Returns:
-            icon:       Player Icon (or None if failed)
+            icon (str):       Player Icon (or None if failed)
         """
+
         if self.player1 is None:
             self.player1 = {"id": player_id, "icon": "X"}
             return "X"
@@ -82,23 +89,30 @@ class Connect4:
 
     def get_board(self)-> np.ndarray:
         """ 
-        Return the current board state (For Example an Array of all Elements)
+        Returns the Current State of the Board.
+
+        Parameters:
+            None
 
         Returns:
-            board
+            board (np.ndarray): Returns the Board
         """
+
         #Return the current board
         return self.Board
 
 
     def check_move(self, column:int, player_Id:uuid.UUID) -> bool:
         """ 
-        Check move of a certain player is legal
-            If a certain player can make the requested move
+        Checks the move of a certain player if it is legal.
+        and checks if the Player is allowed to make a move.
 
         Parameters:
             col (int):      Selected Column of Coin Drop
             player (str):   Player ID 
+        
+        Returns:
+            bool: Returns a Bool if the Move is valid or not
         """
         
         #Checking if Id matches with Player who wants to make a move
@@ -121,13 +135,21 @@ class Connect4:
     Internal Method (for Game Logic)
     """
     def __update_status(self):
-        """ 
-        Update all values for the status (after each successful move)
+        """
+        Ckecks if there is a Winner. 
+        Updates the Values for the Status after a Succesfull move:
             - active player
             - active ID
             - winner
             - turn_number
+
+        Parameters:
+            None
+        
+        Returns:
+            Nothing
         """
+
         #checking if there's a winner
         if not self.winner and self.__detect_win():
             self.winner = self.active_player
@@ -148,11 +170,16 @@ class Connect4:
 
     def __detect_win(self)->bool:
         """ 
-        Detect if someone has won the game (4 consecutive same pieces).
+        Detect if there are 4 Pieces in one Row horizontally, vertically
+        or diagonally. And returns a bool if so.
+
+        Parameters:
+            None
         
         Returns:
-            True if there's a winner, False otherwise
+            bool: True if there's a winner, False otherwise
         """  
+        
         #save rows and cols into a variable
         rows , cols = self.Board.shape
         #Checking if there is a Winner Horizontaly
