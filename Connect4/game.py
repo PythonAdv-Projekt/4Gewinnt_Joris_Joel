@@ -19,26 +19,54 @@ class Connect4:
 
         Is used by the Coordinator
             -> executes the methods of a Game object
-    """
+
+        Attributes:
+            Board:np.ndarray
+                Actual Gameboard
+            player1:dict
+                Player1 of the Game with Player ID and Icon
+            player2:dict
+                Player2 of the Game with Player ID and Icon
+            active_player:dict
+                contains Player ID and Icon of player which is active
+            turncounter:int
+                Number of turns
+            winner:dict
+                If theres a winner the dict of active_player is set to te Attribute
+
+        Methods:
+        get_status()
+            gets the Status of the game who is active and is there a winner and which turn is it
+        register_player(self, player_id:uuid.UUID)->str
+            registers a player with the uuid and returns icon
+        get_board()
+            Returns the current state of the Board
+        check_move(column:int, player_Id:uuid.UUID) -> bool
+            Checks if a move of a certain player is legal and not and if its the players turn
+        __update_status()
+            Makes a Status Update of the game is used by the get_status() Method
+        __detect_win(self)->bool
+            Detects if there is a Winner or not is used by the __update_status() Method
+        
+        """
     
     def __init__(self) -> None:
         """ 
         Init a Connect 4 Game
-            - Create an empty Board
-            - Create two (non - registered and empty) players.
-            - Set the Turn Counter to 0
-            - Set the Winner to False
-            - etc.
+            - Creates an empty Board
+            - Creates two (non - registered and empty) players.
+            - Sets the Turn Counter to 0
+            - Sets the Winner to None
+            - makes dict with keys "id" and "icon"
+        
         """
         self.Board:np.ndarray = np.zeros((7,8),dtype=object)
         self.player1:dict = None
         self.player2:dict = None
         self.active_player:dict = {"id": None, "icon": None}
         self.turncounter:int = 0
-        self.winner:bool = None
+        self.winner:dict = None
         
-        
-
     """
     Methods to be exposed to the API later on
     """
