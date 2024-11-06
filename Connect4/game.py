@@ -58,6 +58,8 @@ class Connect4:
             - Sets the Turn Counter to 0
             - Sets the Winner to None
             - makes dict with keys "id" and "icon"
+        Parameters:
+            None
         
         """
         self.Board:np.ndarray = np.zeros((7,8),dtype=object)

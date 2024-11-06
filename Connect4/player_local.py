@@ -12,11 +12,15 @@ class Player_Local(Player):
 
     def __init__(self, **kwargs) -> None:
         """ 
-        Initialize a local player.
-            Must Implement all Methods from Abstract Player Class
+        Initializes a local player. And Inherits Attributes and Methods from Player Class.
+        Methods are implemented in this class.
+        
 
         Parameters:
             game (Connect4): Instance of Connect4 game passed through kwargs.
+
+        Returns:
+            Nothing
         
        
         """
@@ -28,9 +32,13 @@ class Player_Local(Player):
         """
         Register the player in the game and assign the player an icon.
 
+        Parameters:
+            None
+
         Returns:
             str: The player's icon.
         """
+        
         self.icon = self.game.register_player(self.id)
         if self.icon is None:
             raise ValueError("Failed to register the player in the game")
@@ -40,6 +48,9 @@ class Player_Local(Player):
     def is_my_turn(self) -> bool:
         """ 
         Check if it is the player's turn.
+        
+        Parameters:
+            None
 
         Returns:
             bool: True if it's the player's turn, False otherwise.
@@ -57,6 +68,12 @@ class Player_Local(Player):
             - who is the active player?
             - is there a winner? if so who?
             - what turn is it?
+        
+        Parameters:
+            None
+
+        Returns:
+            Nothing
       
         """
         
@@ -65,6 +82,9 @@ class Player_Local(Player):
     def make_move(self) -> int:
         """ 
         Prompt the physical player to enter a move via the console.
+
+        Parameters:
+            None
 
         Returns:
             int: The column chosen by the player for the move.
@@ -89,6 +109,12 @@ class Player_Local(Player):
     def visualize(self) -> None:
         """
         Visualize the current state of the Connect 4 board by printing it to the console.
+        
+        Parameters:
+            None
+        
+        Returns:
+            Nothing
         """
         #get current board by calling the get_board() Method
         board = self.game.get_board()
