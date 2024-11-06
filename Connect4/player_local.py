@@ -13,7 +13,7 @@ class Player_Local(Player):
 
         Attributes:
             id (UUID): Unique identifier for the player.
-            icon: The player's icon used in the game. (set during registration)
+            icon (str): The player's icon used in the game. (set during registration)
             board_width (int):  Number of Horizontal Elements 
             board_height (int): Number of Vertical Elements
 
@@ -173,7 +173,7 @@ class Player_Local(Player):
             Nothing
 
         """
-        
+
         #celebration = self.get_game_status()
         
         
