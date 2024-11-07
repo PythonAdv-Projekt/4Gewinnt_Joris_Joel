@@ -34,7 +34,7 @@ class Player_Raspi_Local(Player_Local):
         except KeyError:
             raise ValueError(f"{type(self).__name__} requires a 'sense' (SenseHat instance) attribute")
 
-        # TODO: setup other Raspi stuff here
+        self.color:list = None
 
     
     def register_in_game(self):
@@ -44,9 +44,14 @@ class Player_Raspi_Local(Player_Local):
             Set Player Color
         """
         # first do normal register
-        self.icon = super().register_in_game()          # call method of Parent Class (Player_Local)
+        self.icon = super().register_in_game()# call method of Parent Class (Player_Local)
 
-        # TODO: also set color of the player
+        #setting color of Player
+        if self.icon == "X":
+            self.color = [255,0,0]
+        if self.icon == "O":
+            self.color = [0,255,0]        
+
 
         raise NotImplementedError(f"Override register_in_game of Player_Raspi_Locap")
 
@@ -59,6 +64,12 @@ class Player_Raspi_Local(Player_Local):
         Parameters:
             column (int):       potentially selected Column during Selection Process
         """
+
+        self.sense.set_pixel(7,column,self.color[0],self.color[1],self.color[2])
+        
+
+
+
         
 
     def visualize(self) -> None:
@@ -82,8 +93,40 @@ class Player_Raspi_Local(Player_Local):
         Returns:
             col (int):  Selected column (0...7)
         """
+
+        while True:
+            
+            
+            column = 0
+            
+            for event in self.sense.stick.get_events():
+                if event.direction == "right":
+                    if column < 7:
+                        column += 1
+                        self.visualize_choice(column)
+                if event.direction == "left":
+                    if column > 0:
+                        column += 1
+                        self.visualize_choice(column)
+                if event.direction == "middle":
+
+                    #if check_move returns True, we check if the column has space left and the place the chip
+                    if self.game.check_move(column, self.id): 
+                
+                        # Find the lowest available row in the selected column
+                        for row in range(6,-1,-1):
+                            if self.game.Board[row, column] == 0: #Checking for an empty cell
+                                self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
+                                print(f"Player {self.icon} placed a chip in column {column}")
+                                return column
+            
+                    else:
+                        # Invalid move, when check_move returns false
+                        print(f"Invalid move! Please try again.")
+
+            
         
-        raise NotImplementedError(f"make_move not yet implemented on Player_Raspi_Local")
+        
     
     
     def celebrate_win(self) -> None:
