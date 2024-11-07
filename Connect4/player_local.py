@@ -175,7 +175,7 @@ class Player_Local(Player):
         """
 
         #celebration = self.get_game_status()
-        
+        #test
         
         #winner_found = celebration.get("winner")
         #if winner_found !=None:
