@@ -48,9 +48,9 @@ class Player_Raspi_Local(Player_Local):
 
         #setting color of Player
         if self.icon == "X":
-            self.color = [255,0,0]
+            self.color = (255,0,0)
         if self.icon == "O":
-            self.color = [0,255,0]        
+            self.color = (0,255,0)      
 
 
         raise NotImplementedError(f"Override register_in_game of Player_Raspi_Locap")
@@ -65,7 +65,13 @@ class Player_Raspi_Local(Player_Local):
             column (int):       potentially selected Column during Selection Process
         """
 
-        self.sense.set_pixel(7,column,self.color[0],self.color[1],self.color[2])
+        #Clear previous selected column
+        for col in range(8):
+            self.sense.set_pixel(col, 6, (0,0,0))
+        
+        #Light up the selected Column
+        self.sense.set_pixel(column,7,self.color)
+
         
 
 
@@ -77,10 +83,22 @@ class Player_Raspi_Local(Player_Local):
         Override Visualization of Local Player
             Also Visualize on the Raspi 
         """
+        board = self.game.get_board()
+        pixel_matrix = []
 
-        # TODO: visualize Board on raspi
+        for row in range(8):
+            for col in range(7):
+                if board[row, col] == 0:
+                    pixel_matrix.append((0,0,0))
+                elif board[row, col] == self.icon:
+                    pixel_matrix.append(self.color)
 
-        # OPTIONAL: also visualize on CLI
+        self.sense.set_pixels(pixel_matrix)
+        
+                    
+
+
+
         super().visualize()
 
         raise NotImplementedError(f" visualize on Raspi not yet implemented")
@@ -104,11 +122,11 @@ class Player_Raspi_Local(Player_Local):
                     if column < 7:
                         column += 1
                         self.visualize_choice(column)
-                if event.direction == "left":
+                elif event.direction == "left":
                     if column > 0:
-                        column += 1
+                        column -= 1
                         self.visualize_choice(column)
-                if event.direction == "middle":
+                elif event.direction == "middle":
 
                     #if check_move returns True, we check if the column has space left and the place the chip
                     if self.game.check_move(column, self.id): 
