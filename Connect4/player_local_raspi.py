@@ -72,17 +72,13 @@ class Player_Raspi_Local(Player_Local):
         #Light up the selected Column
         self.sense.set_pixel(column,7,self.color)
 
-        
-
-
-
-        
-
+    
     def visualize(self) -> None:
         """
         Override Visualization of Local Player
             Also Visualize on the Raspi 
         """
+        #Visualzation for Sensehat
         board = self.game.get_board()
         pixel_matrix = []
 
@@ -95,13 +91,10 @@ class Player_Raspi_Local(Player_Local):
 
         self.sense.set_pixels(pixel_matrix)
         
-                    
-
-
-
+        #Visualzation for CLI
         super().visualize()
 
-        raise NotImplementedError(f" visualize on Raspi not yet implemented")
+        
 
     def make_move(self) -> int:
         """
@@ -152,7 +145,9 @@ class Player_Raspi_Local(Player_Local):
         Celebrate CLI Win of Raspi player
             Override Method of Local Player
         """
-        # TODO: Own Celebration Method on SenseHat
+        self.sense.load_image("c4e4385986fd571.png")
+        time.sleep(0.5)
+        self.sense.show_message(f"{self.game.active_player["icon"]} won")
 
         # Optional: also do CLI celebration
         super().celebrate_win()
