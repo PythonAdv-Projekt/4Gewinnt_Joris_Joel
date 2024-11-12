@@ -3,7 +3,7 @@
 from game import Connect4
 from player import Player
 from player_local import Player_Local
-
+from player_local_raspi import Player_Raspi_Local
 
 
 class Coordinator_Local:
@@ -16,8 +16,8 @@ class Coordinator_Local:
 
     Attributes:
         game (Connect4):    Local Instance of a Connect4 Game
-        player1 (Player):   Local Instance of a Player 
-        player2 (Player):   Local Instance of a Player
+        player1 (Player_Local or Player_Raspi_Local):   Local Instance of a Player
+        player2 (Player_Local or Player_Raspi_Local):   Local Instance of a Player
 
     Methods:
         def play(self)
@@ -26,20 +26,33 @@ class Coordinator_Local:
     """
     
 
-    def __init__(self) -> None:
+    def __init__(self, on_raspi:bool = False) -> None:
         """
         Initialize the Coordinator_Local with a Game and 2 Players
 
         Parameters:
-            None
+            on_raspi (bool):            If game is played on raspi (default False)
 
         Returns:
             Nothing
 
         """
         self.game = Connect4()
-        self.player1 = Player_Local(game = self.game)
-        self.player2 = Player_Local(game = self.game)
+        self.player1 = None
+        self.player2 = None
+        self.sense = None
+        
+
+        if on_raspi:
+            from sense_hat import SenseHat
+            self.sense = SenseHat()
+            self.player1 = Player_Raspi_Local(game = self.game, sense = self.sense)
+            self.player2 = Player_Raspi_Local(game = self.game, sense = self.sense)
+        else:
+            self.player1 = Player_Local(game = self.game)
+            self.player2 = Player_Local(game = self.game)
+        
+        
         
     
 
