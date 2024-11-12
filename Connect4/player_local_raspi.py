@@ -36,6 +36,7 @@ class Player_Raspi_Local(Player_Local):
             raise ValueError(f"{type(self).__name__} requires a 'sense' (SenseHat instance) attribute")
 
         self.color:list = None
+        self.matrix = [(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0)]
 
     
     def register_in_game(self):
@@ -81,18 +82,14 @@ class Player_Raspi_Local(Player_Local):
         """
         #Visualzation for Sensehat
         board = self.game.get_board()
-        pixel_matrix = []
-
-        for col in range(8):
-            pixel_matrix.append((0,0,0))
-
+        
         for row in range(7):
             for col in range(8):
                 
                 if board[row, col] == 0:
-                    pixel_matrix.append((0,0,0))
+                    self.matrix.append((0,0,0))
                 if board[row, col] == self.icon:
-                    pixel_matrix.append(self.color)
+                    self.matrix.append(self.color)
 
         
         #Padding
@@ -102,7 +99,7 @@ class Player_Raspi_Local(Player_Local):
         
         
 
-        self.sense.set_pixels(pixel_matrix)
+        self.sense.set_pixels(self.matrix)
         
         
         #Visualzation for CLI
