@@ -25,6 +25,7 @@ class Player_Raspi_Local(Player_Local):
             ValueError: If 'sense' is not provided in kwargs.
         """
         # Initialize the parent class (Player_Local)
+        kwargs['game'] = game
         super().__init__(**kwargs)
 
         # Extract the SenseHat instance from kwargs  (only if SHARED instance)
@@ -53,7 +54,7 @@ class Player_Raspi_Local(Player_Local):
             self.color = (0,255,0)      
 
 
-        raise NotImplementedError(f"Override register_in_game of Player_Raspi_Locap")
+        
 
     
     def visualize_choice(self, column:int)->None:
@@ -64,13 +65,13 @@ class Player_Raspi_Local(Player_Local):
         Parameters:
             column (int):       potentially selected Column during Selection Process
         """
-
+        print(column)
         #Clear previous selected column
         for col in range(8):
-            self.sense.set_pixel(col, 6, (0,0,0))
+            self.sense.set_pixel(col, 0, (0,0,0))
         
         #Light up the selected Column
-        self.sense.set_pixel(column,7,self.color)
+        self.sense.set_pixel(column,0,self.color)
 
     
     def visualize(self) -> None:
@@ -82,14 +83,27 @@ class Player_Raspi_Local(Player_Local):
         board = self.game.get_board()
         pixel_matrix = []
 
-        for row in range(8):
-            for col in range(7):
+        for col in range(8):
+            pixel_matrix.append((0,0,0))
+
+        for row in range(7):
+            for col in range(8):
+                
                 if board[row, col] == 0:
                     pixel_matrix.append((0,0,0))
-                elif board[row, col] == self.icon:
+                if board[row, col] == self.icon:
                     pixel_matrix.append(self.color)
 
+        
+        #Padding
+        
+
+        #after padding
+        
+        
+
         self.sense.set_pixels(pixel_matrix)
+        
         
         #Visualzation for CLI
         super().visualize()
@@ -104,22 +118,29 @@ class Player_Raspi_Local(Player_Local):
         Returns:
             col (int):  Selected column (0...7)
         """
-
+        column = 0
         while True:
             
             
-            column = 0
+            
             
             for event in self.sense.stick.get_events():
-                if event.direction == "right":
+                
+                print(f"Joystick event: {event.direction}")
+                if event.direction == "right" and event.action =="pressed":
                     if column < 7:
+                        print(event)
                         column += 1
                         self.visualize_choice(column)
-                elif event.direction == "left":
+                        time.sleep(0.1)
+                if event.direction == "left" and event.action == "pressed":
                     if column > 0:
+                        print(event)
                         column -= 1
                         self.visualize_choice(column)
-                elif event.direction == "middle":
+                        time.sleep(0.1)
+                if event.direction == "middle" and event.action == "pressed":
+                    print(event)
 
                     #if check_move returns True, we check if the column has space left and the place the chip
                     if self.game.check_move(column, self.id): 
@@ -147,7 +168,7 @@ class Player_Raspi_Local(Player_Local):
         """
         self.sense.load_image("c4e4385986fd571.png")
         time.sleep(0.5)
-        self.sense.show_message(f"{self.game.active_player["icon"]} won")
+        self.sense.show_message(f"{self.game.active_player['icon']} won")
 
         # Optional: also do CLI celebration
         super().celebrate_win()

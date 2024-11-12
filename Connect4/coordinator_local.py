@@ -38,19 +38,18 @@ class Coordinator_Local:
 
         """
         self.game = Connect4()
-        self.player1 = None
-        self.player2 = None
+        self.player1 = Player_Local(game = self.game)
+        self.player2 = Player_Local(game = self.game)
         self.sense = None
         
 
         if on_raspi:
             from sense_hat import SenseHat
             self.sense = SenseHat()
-            self.player1 = Player_Raspi_Local(game = self.game, sense = self.sense)
-            self.player2 = Player_Raspi_Local(game = self.game, sense = self.sense)
+            self.player1 = Player_Raspi_Local(game = self.game,sense = self.sense)
+            self.player2 = Player_Raspi_Local(game = self.game,sense = self.sense)
         else:
-            self.player1 = Player_Local(game = self.game)
-            self.player2 = Player_Local(game = self.game)
+            pass
         
         
         
@@ -132,7 +131,7 @@ class Coordinator_Local:
 if __name__ == "__main__":
 
     #Initializes Object called coordinater and runs the Method play()
-    coordinator = Coordinator_Local()
+    coordinator = Coordinator_Local(True)
     coordinator.play()
 
     
