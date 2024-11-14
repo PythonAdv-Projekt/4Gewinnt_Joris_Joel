@@ -154,6 +154,21 @@ class Player_Raspi_Local(Player_Local):
             
                     else:
                         # Invalid move, when check_move returns false
+                        red = (255, 0, 0)
+                        white = (0, 0, 0)
+                        red_cross_matrix = [
+                                        white, white, white, red,   red,   white, white, white,
+                                        white, white, white, red,   red,   white, white, white,
+                                        white, white, white, red,   red,   white, white, white,
+                                        red,   red,   red,   red,   red,   red,   red,   red,
+                                        red,   red,   red,   red,   red,   red,   red,   red,
+                                        white, white, white, red,   red,   white, white, white,
+                                        white, white, white, red,   red,   white, white, white,
+                                        white, white, white, red,   red,   white, white, white
+                                    ]
+                        self.sense.set_pixels(red_cross_matrix)
+                        time.sleep(0.5)
+                        self.visualize()
                         print(f"Invalid move! Please try again.")
 
             
