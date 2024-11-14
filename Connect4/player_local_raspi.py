@@ -84,13 +84,19 @@ class Player_Raspi_Local(Player_Local):
         board = self.game.get_board()
         pixel_matrix=[]
         
-        for row in range(7):
+        for row in range(8):
             for col in range(8):
-                
-                if board[row, col] == 0:
+                if row < 7 and col < 8:
+                    if board[row, col] == 0:
+                        pixel_matrix.append((0,0,0))
+                    elif board[row, col] == "X":
+                        pixel_matrix.append((255,0,0))
+                    elif board[row, col] == "O":
+                        pixel_matrix.append((0,255,0))
+                    else:
+                        pixel_matrix.append((0,0,0))
+                else:
                     pixel_matrix.append((0,0,0))
-                if board[row, col] == self.icon:
-                    pixel_matrix.append(self.color)
 
         self.sense.set_pixels(pixel_matrix)
         
