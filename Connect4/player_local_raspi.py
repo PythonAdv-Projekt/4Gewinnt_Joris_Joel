@@ -51,8 +51,10 @@ class Player_Raspi_Local(Player_Local):
         #setting color of Player
         if self.icon == "X":
             self.color = (255,0,0)
+            self.color_text = "red"
         if self.icon == "O":
-            self.color = (0,255,0)      
+            self.color = (0,255,0)  
+            self.color_text = "green"    
 
 
         
@@ -83,8 +85,11 @@ class Player_Raspi_Local(Player_Local):
         #Visualzation for Sensehat
         board = self.game.get_board()
         pixel_matrix=[]
+
+        for i in range(8):
+            pixel_matrix.append((0,0,0))
         
-        for row in range(8):
+        for row in range(7):
             for col in range(8):
                 if row < 7 and col < 8:
                     if board[row, col] == 0:
@@ -95,8 +100,7 @@ class Player_Raspi_Local(Player_Local):
                         pixel_matrix.append((0,255,0))
                     else:
                         pixel_matrix.append((0,0,0))
-                else:
-                    pixel_matrix.append((0,0,0))
+                
 
         self.sense.set_pixels(pixel_matrix)
         
@@ -116,7 +120,7 @@ class Player_Raspi_Local(Player_Local):
         """
         column = 0
         while True:
-            
+            self.sense.set_pixel(column,0,self.color)
             
             
             
@@ -162,9 +166,11 @@ class Player_Raspi_Local(Player_Local):
         Celebrate CLI Win of Raspi player
             Override Method of Local Player
         """
-        self.sense.load_image("c4e4385986fd571.png")
-        time.sleep(0.5)
-        self.sense.show_message(f"{self.game.active_player['icon']} won")
+        self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color)
+
+        #self.sense.load_image("c4e4385986fd571.png")
+        #time.sleep(0.5)
+        #self.sense.show_message(f"{self.game.active_player['icon']} won")
 
         # Optional: also do CLI celebration
         super().celebrate_win()
