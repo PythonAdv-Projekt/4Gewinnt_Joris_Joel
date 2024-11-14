@@ -1,4 +1,5 @@
 import time
+import random
 
 from sense_hat import SenseHat
 
@@ -181,8 +182,39 @@ class Player_Raspi_Local(Player_Local):
         Celebrate CLI Win of Raspi player
             Override Method of Local Player
         """
-        self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color)
+        self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color, scroll_speed = 0.05)
 
+        # Create a 8x8 grid of black (background)
+        black = (0, 0, 0)
+        matrix = [[black for _ in range(8)] for _ in range(8)]
+        
+        # Start the matrix rain effect
+        while True:
+            # Shift all rows down
+            matrix = [row[:] for row in matrix]  # Copy current state
+            
+            # Randomly add green pixels to the top row (simulating falling rain)
+            for col in range(8):
+                if random.random() < 0.1:  # Adjust this value for more/less rain
+                    matrix[0][col] = self.color  # New green pixel at the top
+            
+            # Shift all pixels down and remove the bottom row
+            for row in range(7, 0, -1):
+                for col in range(8):
+                    matrix[row][col] = matrix[row - 1][col]
+
+            # Clear the screen and update with new matrix
+            self.sense.set_pixels([pixel for row in matrix for pixel in row])
+            
+            # Wait for a short time to simulate the fall of the rain
+            time.sleep(0.1)
+
+            if all(pixel == self.color for row in matrix for pixel in row):
+                time.sleep(3)
+                self.sense.clear()
+                break
+
+        
         #self.sense.load_image("c4e4385986fd571.png")
         #time.sleep(0.5)
         #self.sense.show_message(f"{self.game.active_player['icon']} won")
