@@ -131,7 +131,7 @@ class Coordinator_Local:
 if __name__ == "__main__":
 
     #Initializes Object called coordinater and runs the Method play()
-    coordinator = Coordinator_Local(True)
+    coordinator = Coordinator_Local()
     coordinator.play()
 
     

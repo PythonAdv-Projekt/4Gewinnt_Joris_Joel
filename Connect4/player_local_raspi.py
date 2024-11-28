@@ -1,8 +1,5 @@
 import time
 import random
-
-from sense_hat import SenseHat
-
 from game import Connect4
 from player_local import Player_Local
 
