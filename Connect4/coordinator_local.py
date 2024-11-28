@@ -44,12 +44,13 @@ class Coordinator_Local:
         
 
         if on_raspi:
-            from sense_hat import SenseHat
-            self.sense = SenseHat()
-            self.player1 = Player_Raspi_Local(game = self.game,sense = self.sense)
-            self.player2 = Player_Raspi_Local(game = self.game,sense = self.sense)
-        else:
-            pass
+            try:
+                from sense_hat import SenseHat
+                self.sense = SenseHat()
+                self.player1 = Player_Raspi_Local(game = self.game,sense = self.sense)
+                self.player2 = Player_Raspi_Local(game = self.game,sense = self.sense)
+            except ImportError:
+                raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
         
         
         
@@ -131,7 +132,7 @@ class Coordinator_Local:
 if __name__ == "__main__":
 
     #Initializes Object called coordinater and runs the Method play()
-    coordinator = Coordinator_Local()
+    coordinator = Coordinator_Local(True)
     coordinator.play()
 
     
