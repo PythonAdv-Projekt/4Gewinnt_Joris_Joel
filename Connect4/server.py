@@ -70,8 +70,20 @@ class Connect4Server:
         # 2. Expose register_player method
         @self.app.route('/connect4/register', methods=['POST'])
         def register_player():
-            # TODO Register the player and return the ICON
-            pass
+            data = request.get_json()
+            player_id = data.get("player_id")
+
+            if not player_id:
+                return jsonify({"message": "no player_id provided"}), 400
+            
+            else:
+                registration = self.game.register_player(player_id)
+                return jsonify({"icon": registration}), 200
+
+            
+
+
+        
 
 
         # 3. Expose get_board method
@@ -83,8 +95,27 @@ class Connect4Server:
         # 4. Expose move method
         @self.app.route('/connect4/make_move', methods=['POST'])
         def make_move():
-            # TODO: make move and return success if made
-            pass
+            data = request.get_json()
+            column = data.get("column")
+            player_id = data.get("player_id")
+
+            if not column:
+                return jsonify({"success": False}), 400
+            
+            if self.game.check_move(column, player_id):
+                #Find the lowest available row in the selected column
+                    for row in range(6,-1,-1):
+                        if self.game.Board[row, column] == 0: #Checking for an empty cell
+                            self.game.Board[row, column] = self.game.active_player.get("icon") #Change cell from empty to the icon of the activeplayer
+                            #print(f"Player {self.icon} placed a chip in column {column}")
+                            return jsonify({"success": True}), 200
+                        else:
+                            return jsonify({"success": False}), 400
+
+
+            
+            
+            
 
 
     def run(self, debug=True, host='0.0.0.0', port=5000):

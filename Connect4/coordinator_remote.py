@@ -1,4 +1,6 @@
 from time import sleep
+from player_remote import Player_Remote
+import requests
 
 
 class Coordinator_Remote:
@@ -25,8 +27,7 @@ class Coordinator_Remote:
             api_url (str):      Address of Server, including Port Bsp: http://10.147.17.27:5000
         """
         self.api_url = api_url
-
-        # TODO initialize correct player
+        self.player = Player_Remote()
 
     def wait_for_second_player(self):
         """
