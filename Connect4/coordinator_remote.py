@@ -27,7 +27,7 @@ class Coordinator_Remote:
             api_url (str):      Address of Server, including Port Bsp: http://10.147.17.27:5000
         """
         self.api_url = api_url
-        self.player = Player_Remote()
+        self.player = Player_Remote(api_url)
 
     def wait_for_second_player(self):
         """

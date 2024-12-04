@@ -166,15 +166,20 @@ class Player_Remote(Player):
         """
 
         #get current board by calling the get_board() Method
-        board = self.game.get_board()
-        for row in board:
+        response = requests.get(f"{self.api_url}/connect4/board")
+        if response.status_code == 200:
+            board = response.json()
+            board = board.get("board")
+            for row in board:
             # Check each element, printing "X" in red and "O" in green
-            print(" | ".join(
-                "\033[91mX\033[0m" if cell == "X" else
-                "\033[92mO\033[0m" if cell == "O" else
-                str(cell)
-                for cell in row
-            ))
+                print(" | ".join(
+                    "\033[91mX\033[0m" if cell == "X" else
+                    "\033[92mO\033[0m" if cell == "O" else
+                    str(cell)
+                    for cell in row
+                ))
+        else:
+            print(f"Request error {response.status_code}")
 
     def celebrate_win(self) -> None:
         """

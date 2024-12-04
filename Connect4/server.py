@@ -89,7 +89,10 @@ class Connect4Server:
         # 3. Expose get_board method
         @self.app.route('/connect4/board', methods=['GET'])
         def get_board():
-            # TODO correctly return the Board
+            board = list(self.game.get_board())
+            return jsonify({"board": board})
+
+
             pass
 
         # 4. Expose move method
