@@ -1,6 +1,6 @@
 import time
 import random
-from game import Connect4
+import requests
 from player_local import Player_Local
 
 
@@ -139,16 +139,19 @@ class Player_Raspi_Local(Player_Local):
                         time.sleep(0.1)
                 if event.direction == "middle" and event.action == "pressed":
                     print(event)
+                    move = {"column": column, "player_id": f"{self.id}"}
+                    response = requests.post(f"{self.api_url}/connect4/make_move", json = move)
 
                     #if check_move returns True, we check if the column has space left and the place the chip
-                    if self.game.check_move(column, self.id): 
+                    if response.status_code == 200:
+                        print(f"{response}") 
                 
                         # Find the lowest available row in the selected column
-                        for row in range(6,-1,-1):
-                            if self.game.Board[row, column] == 0: #Checking for an empty cell
-                                self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
-                                print(f"Player {self.icon} placed a chip in column {column}")
-                                return column
+                        #for row in range(6,-1,-1):
+                            #if self.game.Board[row, column] == 0: #Checking for an empty cell
+                                #self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
+                                #print(f"Player {self.icon} placed a chip in column {column}")
+                                #return column
             
                     else:
                         # Invalid move, when check_move returns false

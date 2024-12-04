@@ -135,7 +135,7 @@ class Player_Remote(Player):
                 response = requests.post(f"{self.api_url}/connect4/make_move", json = move)
 
                 #if check_move returns True, we check if the column has space left and the place the chip
-                if response.status_code:
+                if response.status_code == 200:
                     print(f"{response}") 
                     
                     # Find the lowest available row in the selected column
