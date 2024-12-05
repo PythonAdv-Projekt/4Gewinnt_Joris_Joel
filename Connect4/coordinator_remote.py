@@ -36,8 +36,10 @@ class Coordinator_Remote:
         This method checks the game status until the second player is detected,
         indicating that the game can start.
         """
-        # TODO
-        raise NotImplementedError("Not yet implemented")
+        if self.player.get_game_status():
+            return True
+        return False
+        
 
     def play(self):
         """ 
@@ -46,12 +48,22 @@ class Coordinator_Remote:
         This method manages the game loop, where players take turns making moves,
         checks for a winner, and visualizes the game board.
         """
-        # TODO
-        raise NotImplementedError("Not yet implemented")
+        self.player.register_in_game()
+        if self.wait_for_second_player():
+            
+            self.player.visualize()
+            self.player.make_move()
+            #check for a winner
+            if self.player.get_game_status().get("winner"):
+                self.player.visualize()
+                self.player.celebrate_win()
+                return
+            self.player.get_game_status()
+
 
 # To start a game
 if __name__ == "__main__":
-    api_url = "http://localhost:5000"  # Connect 4 API server URL
+    api_url = "http://192.168.1.104:5000"  # Connect 4 API server URL
     
     # Uncomment the following lines to specify different URLs
     # pc_url = "http://172.19.176.1:5000"

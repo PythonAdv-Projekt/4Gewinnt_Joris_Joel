@@ -64,7 +64,10 @@ class Connect4Server:
         @self.app.route('/connect4/status', methods=['GET'])
         def get_status():
             status = self.game.get_status()
-            return jsonify({"status": status})
+            if self.game.player1 and self.game.player2:
+                return jsonify({"status": status}), 200
+            else:
+                return jsonify({"status": "false"}), 400
 
 
         # 2. Expose register_player method
@@ -78,18 +81,13 @@ class Connect4Server:
             
             else:
                 registration = self.game.register_player(player_id)
-                return jsonify({"icon": registration}), 200
-
-            
-
-
-        
+                return jsonify({"player_icon": registration}), 200
 
 
         # 3. Expose get_board method
         @self.app.route('/connect4/board', methods=['GET'])
         def get_board():
-            board = list(self.game.get_board())
+            board = self.game.get_board().tolist()
             return jsonify({"board": board})
 
 
@@ -111,14 +109,9 @@ class Connect4Server:
                         if self.game.Board[row, column] == 0: #Checking for an empty cell
                             self.game.Board[row, column] = self.game.active_player.get("icon") #Change cell from empty to the icon of the activeplayer
                             #print(f"Player {self.icon} placed a chip in column {column}")
-                            return jsonify({"success": True}), 200
+                            return jsonify({"column": column, "player_id": player_id}), 200
                         else:
                             return jsonify({"success": False}), 400
-
-
-            
-            
-            
 
 
     def run(self, debug=True, host='0.0.0.0', port=5000):

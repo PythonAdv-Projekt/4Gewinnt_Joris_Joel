@@ -1,6 +1,3 @@
-
-
-
 from player import Player
 import requests
 
@@ -64,7 +61,7 @@ class Player_Remote(Player):
         """
         #Player registrates himself in the game by using the register_player Method of the Game
         registration = {"player_id": f"{self.id}"}
-        response = requests.post(f"{self.api_url}/connect4/status", json = registration)
+        response = requests.post(f"{self.api_url}/connect4/register", json = registration)
         response = response.json()
 
         self.icon = response.get("player_icon")
@@ -87,8 +84,9 @@ class Player_Remote(Player):
         #Checking if the Active Player in the Game is the same as the Attribute
         response = requests.get(f"{self.api_url}/connect4/status")
         response = response.json()
+        
 
-        if response.get("active_player") == self.icon and response.get("active_id") == self.id:
+        if response.get("status", {}).get("active_player") == self.icon:
             return True
 
         else:
@@ -110,8 +108,12 @@ class Player_Remote(Player):
             
         """
         response = requests.get(f"{self.api_url}/connect4/status")
-        response = response.json()
-        return response
+        if response.status_code == 200:
+            response = response.json()
+            return response
+        else:
+            return False
+        
         
     def make_move(self) -> int:
         """ 
@@ -137,6 +139,7 @@ class Player_Remote(Player):
                 #if check_move returns True, we check if the column has space left and the place the chip
                 if response.status_code == 200:
                     print(f"{response}") 
+                    return column
                     
                     # Find the lowest available row in the selected column
                     #for row in range(6,-1,-1):
