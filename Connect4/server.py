@@ -65,7 +65,10 @@ class Connect4Server:
         def get_status():
             status = self.game.get_status()
             if self.game.player1 and self.game.player2:
-                return jsonify({"status": status}), 200
+                return jsonify({"active_player": status.get("active_player"), 
+                                "active_id": status.get("active_id"),
+                                "winner":status.get("winner"),
+                                "turn_number":status.get("turn number")}), 200
             else:
                 return jsonify({"status": "false"}), 400
 

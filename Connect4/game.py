@@ -90,6 +90,7 @@ class Connect4:
         
         status = {
             "active_player": self.active_player["icon"],
+            "active_id": self.active_player["id"],
             "winner": self.winner,
             "turn number": self.turncounter
         }
