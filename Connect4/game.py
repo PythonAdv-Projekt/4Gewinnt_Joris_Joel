@@ -86,7 +86,7 @@ class Connect4:
             dict: Returns a Dictionary of the Actual Status of the Game
         """
         
-        self.__update_status()
+        #self.__update_status()
         
         status = {
             "active_player": self.active_player["icon"],
@@ -150,16 +150,19 @@ class Connect4:
         print(self.player2)
         if player_Id != self.player1["id"] and player_Id != self.player2["id"]:
             return False
+        
 
         #Checking if column number is valid
         if column < 0 or column >= self.Board.shape[1]:
             return False
+        
         
         #Cheching column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
         
         
+        self.__update_status()
         return True
         
 

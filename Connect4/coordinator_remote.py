@@ -37,6 +37,7 @@ class Coordinator_Remote:
         indicating that the game can start.
         """
         if self.player.get_game_status():
+            print("waiting")
             return True
         return False
         
@@ -63,12 +64,12 @@ class Coordinator_Remote:
 
 # To start a game
 if __name__ == "__main__":
-    api_url = "http://192.168.1.104:5000"  # Connect 4 API server URL
+    #api_url = "http://192.168.1.104:5000"  # Connect 4 API server URL
     
     # Uncomment the following lines to specify different URLs
     # pc_url = "http://172.19.176.1:5000"
     # pc_url = "http://10.147.97.97:5000"
-    # pc_url = "http://127.0.1.1:5000"
+    api_url = "http://127.0.1.1:5000"
 
     # Initialize the Coordinator
     c_remote = Coordinator_Remote(api_url=api_url)
