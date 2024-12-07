@@ -86,7 +86,6 @@ class Connect4:
             dict: Returns a Dictionary of the Actual Status of the Game
         """
         
-        #self.__update_status()
         
         status = {
             "active_player": self.active_player["icon"],
@@ -111,9 +110,11 @@ class Connect4:
 
         if self.player1 is None:
             self.player1 = {"id": player_id, "icon": "X"}
+            self.update_status()
             return "X"
         elif self.player2 is None:
             self.player2 = {"id": player_id, "icon": "O"}
+            self.update_status()
             return "O"
         else:
             return None
@@ -158,19 +159,18 @@ class Connect4:
             return False
         
         
-        #Cheching column has space left
+        #Checking column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
         
         
-        self.__update_status()
         return True
         
 
     """ 
     Internal Method (for Game Logic)
     """
-    def __update_status(self):
+    def update_status(self):
         """
         Ckecks if there is a Winner. 
         Updates the Values for the Status after a Succesfull move:

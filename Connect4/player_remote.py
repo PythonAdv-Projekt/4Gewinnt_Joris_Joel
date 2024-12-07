@@ -84,11 +84,9 @@ class Player_Remote(Player):
         #Checking if the Active Player in the Game is the same as the Attribute
         response = requests.get(f"{self.api_url}/connect4/status")
         response = response.json()
-        
 
-        if response.get("status", {}).get("active_player") == self.icon:
+        if response.get("active_player") == self.icon:
             return True
-
         else:
             return False
 
@@ -151,6 +149,7 @@ class Player_Remote(Player):
                 else:
                     # Invalid move, when check_move returns false
                     print(f"{response}")
+                    print("bruh")
 
             except ValueError:
                 # ValueError is generated when e.g. the inpust is not an integer.
@@ -195,13 +194,10 @@ class Player_Remote(Player):
             Nothing
 
         """
-
-        #celebration = self.get_game_status()
+        response = requests.get(f"{self.api_url}/connect4/status")
+        response = response.json()
+        print(f"Congrats! Player {response.get('winner')} you have won the Game now you can celebrate.")
         
-        #winner_found = celebration.get("winner")
-        #if winner_found !=None:
-        print(f"Congrats! Player {self.game.active_player['icon']} you have won the Game now you can celebrate.")
-        #print(celebration)
             
 
         

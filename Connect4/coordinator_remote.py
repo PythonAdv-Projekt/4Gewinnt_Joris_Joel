@@ -37,8 +37,8 @@ class Coordinator_Remote:
         indicating that the game can start.
         """
         if self.player.get_game_status():
-            print("waiting")
             return True
+        print("Waiting on other Player")
         return False
         
 
@@ -50,16 +50,21 @@ class Coordinator_Remote:
         checks for a winner, and visualizes the game board.
         """
         self.player.register_in_game()
-        if self.wait_for_second_player():
-            
-            self.player.visualize()
-            self.player.make_move()
-            #check for a winner
-            if self.player.get_game_status().get("winner"):
-                self.player.visualize()
-                self.player.celebrate_win()
-                return
-            self.player.get_game_status()
+        while True:
+            if self.wait_for_second_player():
+                if self.player.is_my_turn():
+                    print("It's your turn!")
+                    self.player.visualize()
+                    self.player.make_move()
+                    self.player.visualize()
+                    print("Waiting on other Player to make his move...")
+                    print(self.player.get_game_status())
+
+                #check for a winner
+                if self.player.get_game_status().get("winner"):
+                    self.player.visualize()
+                    self.player.celebrate_win()
+                    return
 
 
 # To start a game
@@ -69,7 +74,7 @@ if __name__ == "__main__":
     # Uncomment the following lines to specify different URLs
     # pc_url = "http://172.19.176.1:5000"
     # pc_url = "http://10.147.97.97:5000"
-    api_url = "http://127.0.1.1:5000"
+    api_url = "http://127.0.0.1:5000"
 
     # Initialize the Coordinator
     c_remote = Coordinator_Remote(api_url=api_url)

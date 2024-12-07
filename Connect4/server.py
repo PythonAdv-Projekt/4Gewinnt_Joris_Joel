@@ -103,6 +103,11 @@ class Connect4Server:
             column = data.get("column")
             player_id = data.get("player_id")
 
+            #saving the icon from the player who made the move, because if check_move is true, it's gonna change the active_player
+            for player in [self.game.player1, self.game.player2]:
+                if player["id"] == player_id:
+                    player_icon = player["icon"]
+
             if not column:
                 return jsonify({"success": False}), 400
             
@@ -110,11 +115,12 @@ class Connect4Server:
                 #Find the lowest available row in the selected column
                     for row in range(6,-1,-1):
                         if self.game.Board[row, column] == 0: #Checking for an empty cell
-                            self.game.Board[row, column] = self.game.active_player.get("icon") #Change cell from empty to the icon of the activeplayer
+                            self.game.Board[row, column] = player_icon #Change cell from empty to the icon of the player who made the move
+                            self.game.update_status()
                             #print(f"Player {self.icon} placed a chip in column {column}")
                             return jsonify({"column": column, "player_id": player_id}), 200
-                        else:
-                            return jsonify({"success": False}), 400
+            else:
+                return jsonify({"success": False}), 400
 
 
     def run(self, debug=True, host='0.0.0.0', port=5000):
