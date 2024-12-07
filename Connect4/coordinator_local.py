@@ -99,6 +99,7 @@ class Coordinator_Local:
                 #if True the Board gets visualized and player1 can make his move 
                 self.player1.visualize()
                 self.player1.make_move()
+                self.game.update_status()
 
                 #player1 gets status and saves winner to winner_found
                 status = self.player1.get_game_status()
@@ -116,6 +117,7 @@ class Coordinator_Local:
                 #if True the Board gets visualized and player2 can make his move
                 self.player2.visualize()
                 self.player2.make_move()
+                self.game.update_status()
 
                 #player2 gets status and saves winner to winner_found
                 status = self.player2.get_game_status()
