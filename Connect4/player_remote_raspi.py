@@ -11,7 +11,7 @@ class Player_Raspi_Remote(Player_Remote):
             (uses Methods of Game and SenseHat)
     """
 
-    def __init__(self, api_url, **kwargs) -> None:
+    def __init__(self, api_url:str, **kwargs) -> None:
         """ 
         Initialize a local Raspi player with a shared SenseHat instance.
 
@@ -23,7 +23,7 @@ class Player_Raspi_Remote(Player_Remote):
             ValueError: If 'sense' is not provided in kwargs.
         """
         # Initialize the parent class (Player_Local)
-        self.api_url= api_url
+        kwargs['api_url']= api_url
         super().__init__(**kwargs)
 
         # Extract the SenseHat instance from kwargs  (only if SHARED instance)
