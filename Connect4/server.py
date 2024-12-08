@@ -94,7 +94,7 @@ class Connect4Server:
             return jsonify({"board": board})
 
 
-            pass
+            
 
         # 4. Expose move method
         @self.app.route('/connect4/make_move', methods=['POST'])
