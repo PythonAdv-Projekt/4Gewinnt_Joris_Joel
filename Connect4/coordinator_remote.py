@@ -3,6 +3,7 @@ from player_remote import Player_Remote
 import requests
 
 
+
 class Coordinator_Remote:
     """ 
     Coordinator for two Remote players
@@ -38,7 +39,9 @@ class Coordinator_Remote:
         """
         if self.player.get_game_status():
             return True
-        print("Waiting on other Player")
+        print("Waiting for other Connect4 Player to register..")
+        #waiting for 2 seconds till next GET-Request
+        sleep(2)
         return False
         
 
@@ -50,21 +53,33 @@ class Coordinator_Remote:
         checks for a winner, and visualizes the game board.
         """
         self.player.register_in_game()
+        
         while True:
             if self.wait_for_second_player():
                 if self.player.is_my_turn():
-                    print("It's your turn!")
+                    print("\033[1m" + "It's your turn!" + "\033[0m")
                     self.player.visualize()
                     self.player.make_move()
                     self.player.visualize()
-                    print("Waiting on other Player to make his move...")
                     print(self.player.get_game_status())
+                    #checking for a Win
+                    if self.player.get_game_status().get("winner"):
+                        self.player.visualize()
+                        self.player.celebrate_win()
+                        return
+                    print("Waiting on other Player to make his move...")
+                #checking if the other player has won
+                elif not self.player.is_my_turn():
+                    if self.player.get_game_status().get("winner"):
+                        self.player.visualize()
+                        print("You have lost the Game!")
+                        return
+                    elif self.player.get_game_status().get("turn_number") == 2:
+                        print("Your opponent registered to the game! Wait now till he made his first move.")
+                        sleep(2)
+                    
 
-                #check for a winner
-                if self.player.get_game_status().get("winner"):
-                    self.player.visualize()
-                    self.player.celebrate_win()
-                    return
+                    
 
 
 # To start a game

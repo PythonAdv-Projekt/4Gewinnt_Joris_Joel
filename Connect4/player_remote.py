@@ -196,7 +196,7 @@ class Player_Remote(Player):
         """
         response = requests.get(f"{self.api_url}/connect4/status")
         response = response.json()
-        print(f"Congrats! Player {response.get('winner')} you have won the Game now you can celebrate.")
+        print(f"Congrats! Player {response.get('winner').get('icon')}, you have won the Game!")
         
             
 
