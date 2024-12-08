@@ -84,7 +84,7 @@ class Player_Raspi_Remote(Player_Remote):
         #Visualzation for Sensehat
         response = requests.get(f"{self.api_url}/connect4/board")
         if response.status_code == 200:
-            board = response.json()
+            board = response.json().get("board")
             board = np.array(board).reshape(7, 8)
             pixel_matrix=[]
 
