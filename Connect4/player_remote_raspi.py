@@ -1,17 +1,17 @@
 import time
 import random
 import requests
-from player_local import Player_Local
+from player_remote import Player_Remote
 
 
-class Player_Raspi_Local(Player_Local):
+class Player_Raspi_Remote(Player_Remote):
     """ 
     Local Raspi Player 
         Same as Local Player -> with some changed methods
             (uses Methods of Game and SenseHat)
     """
 
-    def __init__(self, game:Connect4, **kwargs) -> None:
+    def __init__(self, api_url, **kwargs) -> None:
         """ 
         Initialize a local Raspi player with a shared SenseHat instance.
 
@@ -23,7 +23,7 @@ class Player_Raspi_Local(Player_Local):
             ValueError: If 'sense' is not provided in kwargs.
         """
         # Initialize the parent class (Player_Local)
-        kwargs['game'] = game
+        self.api_url= api_url
         super().__init__(**kwargs)
 
         # Extract the SenseHat instance from kwargs  (only if SHARED instance)
@@ -81,23 +81,28 @@ class Player_Raspi_Local(Player_Local):
             Also Visualize on the Raspi 
         """
         #Visualzation for Sensehat
-        board = self.game.get_board()
-        pixel_matrix=[]
+        response = requests.get(f"{self.api_url}/connect4/board")
+        if response.status_code == 200:
+            board = response.json()
+            board = board.get("board")
+            pixel_matrix=[]
 
-        for i in range(8):
-            pixel_matrix.append((0,0,0))
+            for i in range(8):
+                pixel_matrix.append((0,0,0))
         
-        for row in range(7):
-            for col in range(8):
-                if row < 7 and col < 8:
-                    if board[row, col] == 0:
-                        pixel_matrix.append((0,0,0))
-                    elif board[row, col] == "X":
-                        pixel_matrix.append((255,0,0))
-                    elif board[row, col] == "O":
-                        pixel_matrix.append((0,255,0))
-                    else:
-                        pixel_matrix.append((0,0,0))
+            for row in range(7):
+                for col in range(8):
+                    if row < 7 and col < 8:
+                        if board[row, col] == 0:
+                            pixel_matrix.append((0,0,0))
+                        elif board[row, col] == "X":
+                            pixel_matrix.append((255,0,0))
+                        elif board[row, col] == "O":
+                            pixel_matrix.append((0,255,0))
+                        else:
+                            pixel_matrix.append((0,0,0))
+        else:
+            print(f"Request error {response.status_code}")
                 
 
         self.sense.set_pixels(pixel_matrix)

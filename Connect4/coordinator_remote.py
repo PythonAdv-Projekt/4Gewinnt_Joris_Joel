@@ -1,5 +1,6 @@
 from time import sleep
 from player_remote import Player_Remote
+from player_remote_raspi import Player_Raspi_Remote
 import requests
 
 
@@ -20,7 +21,7 @@ class Coordinator_Remote:
         sense (SenseHat):   Optional Local Instance of a SenseHat (if on Raspi)
     """
 
-    def __init__(self, api_url: str) -> None:
+    def __init__(self, api_url: str, on_raspi:bool) -> None:
         """
         Initialize the Coordinator_Remote.
 
@@ -29,6 +30,15 @@ class Coordinator_Remote:
         """
         self.api_url = api_url
         self.player = Player_Remote(api_url)
+        
+        if on_raspi:
+            try:
+                from sense_hat import SenseHat
+                self.sense = SenseHat()
+                self.player = Player_Raspi_Remote(game = self.game,sense = self.sense)
+                
+            except ImportError:
+                raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
 
     def wait_for_second_player(self):
         """
