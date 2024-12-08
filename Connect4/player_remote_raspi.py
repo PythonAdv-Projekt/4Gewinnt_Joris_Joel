@@ -150,7 +150,8 @@ class Player_Raspi_Remote(Player_Remote):
 
                     #if check_move returns True, we check if the column has space left and the place the chip
                     if response.status_code == 200:
-                        print(f"{response}") 
+                        print(f"{response}")
+                        return column
                 
                         # Find the lowest available row in the selected column
                         #for row in range(6,-1,-1):
