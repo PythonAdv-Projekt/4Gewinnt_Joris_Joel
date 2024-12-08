@@ -107,9 +107,6 @@ class Connect4Server:
             for player in [self.game.player1, self.game.player2]:
                 if player["id"] == player_id:
                     player_icon = player["icon"]
-
-            if not column:
-                return jsonify({"success": False}), 400
             
             if self.game.check_move(column, player_id):
                 #Find the lowest available row in the selected column
