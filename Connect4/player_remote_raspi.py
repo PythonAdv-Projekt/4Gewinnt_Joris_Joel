@@ -1,6 +1,7 @@
 import time
 import random
 import requests
+import numpy as np
 from player_remote import Player_Remote
 
 
@@ -85,6 +86,7 @@ class Player_Raspi_Remote(Player_Remote):
         if response.status_code == 200:
             board = response.json()
             board = board.get("board")
+            board = np.array(board).reshape(7, 8)
             pixel_matrix=[]
 
             for i in range(8):
