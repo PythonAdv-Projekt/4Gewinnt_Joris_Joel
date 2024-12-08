@@ -31,7 +31,7 @@ class Player_Remote(Player):
         
         """
 
-    def __init__(self, api_url) -> None:
+    def __init__(self, api_url, **kwargs) -> None:
         """ 
         Initializes a local player.
         
