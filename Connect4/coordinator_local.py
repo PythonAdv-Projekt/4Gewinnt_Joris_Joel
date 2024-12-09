@@ -1,7 +1,4 @@
-
-
 from game import Connect4
-from player import Player
 from player_local import Player_Local
 from player_local_raspi import Player_Raspi_Local
 
@@ -52,9 +49,6 @@ class Coordinator_Local:
             except ImportError:
                 raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
         
-        
-        
-    
 
     def play(self):
         """ 
@@ -78,19 +72,11 @@ class Coordinator_Local:
         # register Player 2
         self.player2.register_in_game()
 
-
-        
-        #Defining which player is starting
-        
         #Set Starting Player to player1
         self.game.active_player["id"] = self.player1.id
         self.game.active_player["icon"] = self.player1.icon
 
-
-
-        
         #Main Loop to run the game
-
         while True:
             
             #Checking if its player1 turn
@@ -136,5 +122,3 @@ if __name__ == "__main__":
     #Initializes Object called coordinater and runs the Method play()
     coordinator = Coordinator_Local()
     coordinator.play()
-
-    

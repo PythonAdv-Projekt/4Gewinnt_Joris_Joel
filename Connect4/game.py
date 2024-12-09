@@ -148,8 +148,6 @@ class Connect4:
         """
         
         #Checking if Id matches with Player who wants to make a move
-        print(self.player1)
-        print(self.player2)
         if player_Id != self.player1["id"] and player_Id != self.player2["id"]:
             return False
         

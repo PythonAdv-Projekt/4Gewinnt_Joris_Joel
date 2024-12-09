@@ -1,8 +1,4 @@
-
-
-from game import Connect4
 from player import Player
-
 
 
 class Player_Local(Player):
@@ -82,7 +78,6 @@ class Player_Local(Player):
         #Checking if the Active Player in the Game is the same as the Attribute
         if self.game.active_player["icon"] == self.icon and self.game.active_player["id"] == self.id:
             return True
-
         else:
             return False
 
@@ -174,12 +169,4 @@ class Player_Local(Player):
 
         """
 
-        #celebration = self.get_game_status()
-        
-        #winner_found = celebration.get("winner")
-        #if winner_found !=None:
-        print(f"Congrats! Player {self.game.active_player['icon']} you have won the Game now you can celebrate.")
-        #print(celebration)
-            
-
-        
+        print(f"\033[1mCongrats! Player {self.game.active_player['icon']}, you have won the Game!\033[0m")
