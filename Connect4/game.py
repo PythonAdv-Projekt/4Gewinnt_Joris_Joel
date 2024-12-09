@@ -36,15 +36,15 @@ class Connect4:
 
         Methods:
         get_status()
-            gets the Status of the game who is active and is there a winner and which turn is it
+            returns the Status of the game who is active and is there a winner and which turn is it
         register_player(self, player_id:uuid.UUID)->str
             registers a player with the uuid and returns icon
         get_board()
             Returns the current state of the Board
         check_move(column:int, player_Id:uuid.UUID) -> bool
             Checks if a move of a certain player is legal and not and if its the players turn
-        __update_status()
-            Makes a Status Update of the game is used by the get_status() Method
+        update_status()
+            Makes a Status Update of the game
         __detect_win(self)->bool
             Detects if there is a Winner or not is used by the __update_status() Method
         
@@ -74,8 +74,8 @@ class Connect4:
     """
     def get_status(self):
         """
-        Uses the __update.status Method to Update the Status and returns the updatet Status.
-        - Who is the Active Player.
+        returns the status of the game with following information:
+        - Who is the Active Player (icon and id)
         - Is there a Winner.
         - Which turn is it.
 
@@ -98,8 +98,10 @@ class Connect4:
 
     def register_player(self, player_id:uuid.UUID)->str:
         """ 
-        Registers a Player with a uuid  and Saves the Player to 
+        Registers a Player with a uuid and Saves the Player to 
         a Attribut in form of a Dictionary which contains the player_id and the icon.
+        It also uses the update_status() method to update the status when a player
+        is registered.
         
         Parameters:
             player_id (UUID)    Unique ID
@@ -107,15 +109,21 @@ class Connect4:
         Returns:
             icon (str):       Player Icon (or None if failed)
         """
-
+        #checking if player1 is already registered
         if self.player1 is None:
+            #register player1 if not already registered
             self.player1 = {"id": player_id, "icon": "X"}
+            #update the status
             self.update_status()
             return "X"
+        #checking if player2 is already registered
         elif self.player2 is None:
+            #register player2 if not already registered
             self.player2 = {"id": player_id, "icon": "O"}
+            #update the status
             self.update_status()
             return "O"
+        #return None if there are already two registered players
         else:
             return None
 
@@ -130,7 +138,7 @@ class Connect4:
             board (np.ndarray): Returns the Board
         """
 
-        #Return the current board
+        #return the current board
         return self.Board
 
 
@@ -206,8 +214,8 @@ class Connect4:
 
     def __detect_win(self)->bool:
         """ 
-        Detect if there are 4 Pieces in one Row horizontally, vertically
-        or diagonally. And returns a bool if so.
+        Internal method which detects if there are 4 Pieces in one Row horizontally, vertically
+        or diagonally. And returns True if so.
 
         Parameters:
             None
