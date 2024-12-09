@@ -10,24 +10,24 @@ class Player_Remote(Player):
     Inherits Methods an Attributes from Player Class
 
         Attributes:
-            id (UUID): Unique identifier for the player.
-            icon (str): The player's icon used in the game. (set during registration)
-            board_width (int):  Number of Horizontal Elements 
-            board_height (int): Number of Vertical Elements
+            Inherits all Attributes from Remote Player
+
+            The following attributes are only for Remote Player
+            api_url (str): Address of Server, including Port Bsp: http://10.147.17.27:5000
 
         Methods:
         register_in_game(self) -> str
-            Registers player in the game instance
+            sends a API request to the server and returns the icon if succesful
         is_my_turn(self) -> bool
-            Checks if its a players turn
+            sends a API request to the server and returns a boolean if succeded
         get_game_status(self)->dict
-            gets the actual Status of the game
+            sends the a API request to the server and returns a dictionary if succesful
         make_move(self) -> int
-            Player is promted to make move
+            Player can make a move and sends a API request for checking the move and returns the column if succesful
         visualize(self) -> None
-            Visualizes Player the game board
+            gets the board with an API request and Visualizes Player the game board
         celebrate_win(self) -> None
-            player can celebrate if won
+            checks if the player has won, if player has won it is printed to the CLI
         
         """
 
@@ -36,7 +36,8 @@ class Player_Remote(Player):
         Initializes a local player.
         
         Parameters:
-            game (Connect4): Instance of Connect4 game passed through kwargs.
+            api_url (str):Address of Server, including Port Bsp: http://10.147.17.27:5000
+
 
         Returns:
             Nothing
@@ -45,25 +46,30 @@ class Player_Remote(Player):
         # Initialize id and icon from the abstract Player class
         super().__init__()  
 
-        # Saves Instance of game to Attribute self.game
+        # Saves api_url to attribute self.api_url
         self.api_url = api_url
         
     def register_in_game(self) -> str:
         """
-        Registers a player in the game and assigns the player an icon.
+        Makes an API request to server for registration assigns the icon to the player and 
+        returns the icon if registration is succesful.
 
         Parameters:
             None
 
         Returns:
             str: The player's icon.
+        
+        Raises:
+            ValueError: if the Registration wasnt successful
 
         """
-        #Player registrates himself in the game by using the register_player Method of the Game
+        #Player registrates himself in the game by using API request 
         registration = {"player_id": f"{self.id}"}
         response = requests.post(f"{self.api_url}/connect4/register", json = registration)
         response = response.json()
 
+        #Assigns Player a icon and if not sucessfull raises ValueError
         self.icon = response.get("player_icon")
         if self.icon is None:
             raise ValueError("Failed to register the player in the game")
@@ -72,7 +78,7 @@ class Player_Remote(Player):
         
     def is_my_turn(self) -> bool:
         """ 
-        Check if it is the player's turn.
+        Check if it is the player's turn via Api request if its the players turn returns True.
         
         Parameters:
             None
@@ -92,11 +98,11 @@ class Player_Remote(Player):
 
     def get_game_status(self)->dict:
         """
-        Gets the game's current status by using the get_status() Method of the Game.
+        Gets the game's current status by making a Api request.
         which contains:
-            - who is the active player?
-            - is there a winner? if so who?
-            - what turn is it?
+            - who is the active player
+            - is there a winner
+            - what turn is it
         
         Parameters:
             None
@@ -105,6 +111,7 @@ class Player_Remote(Player):
             dict: Returns a Dictionary of the Actual Status of the Game
             
         """
+        #Getting the status of the game and returns dictionary of status if request succesfull
         response = requests.get(f"{self.api_url}/connect4/status")
         if response.status_code == 200:
             response = response.json()
@@ -115,10 +122,10 @@ class Player_Remote(Player):
         
     def make_move(self) -> int:
         """ 
-        Player gets Message to make a Move.
-        The Move gets checked by using the Method check_move of the game and
-        if the Move is valid ther will be returned the Column.
-
+        Player gets Message to make a Move. Player can choose between (0..7). When Player makes a move
+        API request is send to the server for checking. If Move is succesfull column is returned otherwise
+        response is printed.
+        
         Parameters:
             None
 
@@ -134,20 +141,15 @@ class Player_Remote(Player):
                 move = {"column": column, "player_id": f"{self.id}"}
                 response = requests.post(f"{self.api_url}/connect4/make_move", json = move)
 
-                #if check_move returns True, we check if the column has space left and the place the chip
+                ##if API request returns True, we return the column
                 if response.status_code == 200:
                     print(f"{response}") 
                     return column
                     
-                    # Find the lowest available row in the selected column
-                    #for row in range(6,-1,-1):
-                        #if self.game.Board[row, column] == 0: #Checking for an empty cell
-                            #self.game.Board[row, column] = self.icon #Change cell from empty to the icon of the player
-                            #print(f"Player {self.icon} placed a chip in column {column}")
-                            #return column
+                    
                 
                 else:
-                    # Invalid move, when check_move returns false
+                    # Invalid move, when response returns other than status_code 200
                     print(f"{response}")
                     print("bruh")
 
@@ -158,6 +160,8 @@ class Player_Remote(Player):
     def visualize(self) -> None:
         """
         Visualize the current state of the Connect 4 board by printing it to the console.
+        By making a API request to the server. Board is formatted into the correct way to
+        show in the CLI if status_code of response == 200.
         
         Parameters:
             None
@@ -167,12 +171,13 @@ class Player_Remote(Player):
 
         """
 
-        #get current board by calling the get_board() Method
+        #get current board by making API rewuest to the server
         response = requests.get(f"{self.api_url}/connect4/board")
         if response.status_code == 200:
             board = response.json()
             board = board.get("board")
             for row in board:
+
             # Check each element, printing "X" in red and "O" in green
                 print(" | ".join(
                     "\033[91mX\033[0m" if cell == "X" else
