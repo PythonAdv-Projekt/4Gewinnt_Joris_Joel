@@ -1,15 +1,13 @@
 from time import sleep
 from player_remote import Player_Remote
 from player_remote_raspi import Player_Raspi_Remote
-import requests
-
 
 
 class Coordinator_Remote:
     """ 
     Coordinator for two Remote players
         - either playing over CLI or
-        - playing over SenseHat
+        - playing over SenseHat on Raspberry Pi
 
     This class manages the game flow, player registration, turn management, 
     and game status updates for Remote players using the Server.
@@ -23,10 +21,11 @@ class Coordinator_Remote:
 
     def __init__(self, api_url: str, on_raspi:bool) -> None:
         """
-        Initialize the Coordinator_Remote.
+        Initializes the Coordinator_Remote.
 
         Parameters:
-            api_url (str):      Address of Server, including Port Bsp: http://10.147.17.27:5000
+            api_url (str):      Address of Server, including Port
+            on_raspi(bool):     True when player on raspi, False when not
         """
         self.api_url = api_url
         self.player = Player_Remote(api_url)
@@ -47,6 +46,7 @@ class Coordinator_Remote:
         This method checks the game status until the second player is detected,
         indicating that the game can start.
         """
+        #the second player is registered when game_status gets returned
         if self.player.get_game_status():
             return True
         print("Waiting for other Connect4 Player to register..")
@@ -62,10 +62,13 @@ class Coordinator_Remote:
         This method manages the game loop, where players take turns making moves,
         checks for a winner, and visualizes the game board.
         """
+        #register the player into the game
         self.player.register_in_game()
         
         while True:
+            #wait till booth player are registered
             if self.wait_for_second_player():
+                #wait till it's the players turn
                 if self.player.is_my_turn():
                     print("\033[1m" + "It's your turn!" + "\033[0m")
                     self.player.visualize()
@@ -89,9 +92,6 @@ class Coordinator_Remote:
                         sleep(2)
                     
 
-                    
-
-
 # To start a game
 if __name__ == "__main__":
     #api_url = "http://192.168.1.104:5000"  # Connect 4 API server URL
@@ -103,5 +103,5 @@ if __name__ == "__main__":
     api_url = "http://192.168.43.4:5000"
 
     # Initialize the Coordinator
-    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False)
+    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False) #on_raspi=True when player on Raspberry Pi with SenseHat
     c_remote.play()
