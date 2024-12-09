@@ -1,9 +1,6 @@
-import uuid
-
 import socket                                               # to get own IP
 from flask import Flask, request, jsonify                   # for api
 from flask_swagger_ui import get_swaggerui_blueprint        # for swagger documentation
-
 
 # local includes
 from game import Connect4

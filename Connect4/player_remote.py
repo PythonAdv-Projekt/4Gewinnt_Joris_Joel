@@ -2,7 +2,6 @@ from player import Player
 import requests
 
 
-
 class Player_Remote(Player):
     """ 
     Local Player Class (uses Methods of the Game directly).
