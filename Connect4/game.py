@@ -1,6 +1,4 @@
 import uuid
-import random
-
 import numpy as np
 
 
@@ -47,7 +45,6 @@ class Connect4:
             Makes a Status Update of the game
         __detect_win(self)->bool
             Detects if there is a Winner or not is used by the __update_status() Method
-        
         """
     
     def __init__(self) -> None:
@@ -69,9 +66,6 @@ class Connect4:
         self.turncounter:int = 0
         self.winner:dict = None
         
-    """
-    Methods to be exposed to the API later on
-    """
     def get_status(self):
         """
         returns the status of the game with following information:
@@ -85,8 +79,7 @@ class Connect4:
         Returns:
             dict: Returns a Dictionary of the Actual Status of the Game
         """
-        
-        
+         
         status = {
             "active_player": self.active_player["icon"],
             "active_id": self.active_player["id"],
@@ -141,7 +134,6 @@ class Connect4:
         #return the current board
         return self.Board
 
-
     def check_move(self, column:int, player_Id:uuid.UUID) -> bool:
         """ 
         Checks the move of a certain player if it is legal.
@@ -161,26 +153,18 @@ class Connect4:
         if player_Id != self.player1["id"] and player_Id != self.player2["id"]:
             return False
         
-
         #Checking if column number is valid
         if column < 0 or column >= self.Board.shape[1]:
             return False
-        
         
         #Checking column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
         
-        
         return True
         
-
-    """ 
-    Internal Method (for Game Logic)
-    """
     def update_status(self):
         """
-        Ckecks if there is a Winner. 
         Updates the Values for the Status after a Succesfull move:
             - active player
             - active ID
@@ -209,8 +193,6 @@ class Connect4:
                 self.turncounter += 1 
                 self.active_player["id"] = self.player1["id"]
                 self.active_player["icon"] = self.player1["icon"]
-            
-    
 
     def __detect_win(self)->bool:
         """ 
