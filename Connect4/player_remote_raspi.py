@@ -124,7 +124,7 @@ class Player_Raspi_Remote(Player_Remote):
             board = response.json().get("board")
             board = np.array(board).reshape(7, 8)
             
-            #Matrix for the sensaht
+            #Matrix for the sensehat
             pixel_matrix=[]
 
             # adds an empty row with the no color so that the matrix is 8x8

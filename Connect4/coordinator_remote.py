@@ -17,6 +17,12 @@ class Coordinator_Remote:
         api_url (str):      Address of Server, including Port Bsp: http://10.147.17.27:5000
         player (Player):    Local Instance of ONE remote Player (Raspi or Normal)
         sense (SenseHat):   Optional Local Instance of a SenseHat (if on Raspi)
+
+    Methods:
+        wait_for_second_player(self)
+            Waits for the second player to connect
+        play(self)
+            Main function to playe the game
     """
 
     def __init__(self, api_url: str, on_raspi:bool) -> None:
@@ -45,6 +51,12 @@ class Coordinator_Remote:
 
         This method checks the game status until the second player is detected,
         indicating that the game can start.
+
+        Parameters:
+            None
+        
+        Returns:
+            Nothing
         """
         #the second player is registered when game_status gets returned
         if self.player.get_game_status():
@@ -61,6 +73,12 @@ class Coordinator_Remote:
 
         This method manages the game loop, where players take turns making moves,
         checks for a winner, and visualizes the game board.
+
+        Parameters:
+            None
+
+        Returns:
+            Nothing
         """
         #register the player into the game
         self.player.register_in_game()

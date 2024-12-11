@@ -7,27 +7,52 @@ from player_local import Player_Local
 class Player_Raspi_Local(Player_Local):
     """ 
     Local Raspi Player 
-        Same as Local Player -> with some changed methods
-            (uses Methods of Game and SenseHat)
+        Same as Remote Player -> with some changed methods
+        Uses Methods of SenseHat and interacts with gameobject
+
+    Attributes:
+        Inherits all Attributes from Local Player
+
+        The following attributes are only for Local Raspi Player
+        color (tuple): Color in RGB Format for the player
+        sense (Sensehat): Sensehat instance for the player
+
+    Methods:
+
+        register_in_game(self)->None
+            Uses Registration Method of Local Player and adds Color to the Raspi Player
+        visualize_choice(self, column:int)->None
+            Visualizes de Choice on the Raspberry Pi when moving the joystick
+        visualize(self) -> None
+            Visualizes the gameboard on the Raspberry Pi
+        make_move(self) -> int
+            Method to make a move on the Raspberry Pi
+        celebrate_win(self) -> None
+            Player celebrates if the game is won
+        
     """
 
     def __init__(self, game:Connect4, **kwargs) -> None:
         """ 
-        Initialize a local Raspi player with a shared SenseHat instance.
+        Initializes a local Raspi player with a shared SenseHat instance.
+        Has a Game Object passed threw kwargs.
 
         Parameters:
             game (Connect4): Game instance.
             sense (SenseHat): Shared SenseHat instance for all players. (if SHARED option is used)
+
+        Returns:
+            Nothing
         
         Raises:
             ValueError: If 'sense' is not provided in kwargs.
+
         """
         # Initialize the parent class (Player_Local)
         kwargs['game'] = game
         super().__init__(**kwargs)
 
-        # Extract the SenseHat instance from kwargs  (only if SHARED instance)
-        # Remove Otherwise
+        # Extracts the SenseHat instance from kwargs
         try:
             self.sense: SenseHat = kwargs["sense"]
         except KeyError:
@@ -39,12 +64,17 @@ class Player_Raspi_Local(Player_Local):
     
     def register_in_game(self):
         """
-        Register in game
-            Set Player Icon 
-            Set Player Color
+        Uses Registration Method of Local Player and adds a color to the Player dependend on
+        the icon the registration reutrns.
+
+        Parameters:
+            None
+
+        Returns:
+            Nothing
         """
-        # first do normal register
-        self.icon = super().register_in_game()# call method of Parent Class (Player_Local)
+        # Calling Registration Method of Local Player to get Icon
+        self.icon = super().register_in_game()
 
         #setting color of Player
         if self.icon == "X":
@@ -60,11 +90,14 @@ class Player_Raspi_Local(Player_Local):
     
     def visualize_choice(self, column:int)->None:
         """ 
-        Visualize the SELECTION process of choosing a column
-            Toggles the LED on the top row of the currently selected column
+        Visualizes the selection Process by toggling the LED on the sensehat.
+        Only toggles on the top row on the sensehat
 
         Parameters:
-            column (int):       potentially selected Column during Selection Process
+            column (int):  selected Column during Selection Process
+        
+        Returns:
+            Nothing
         """
         print(column)
         #Clear previous selected column
@@ -77,16 +110,24 @@ class Player_Raspi_Local(Player_Local):
     
     def visualize(self) -> None:
         """
-        Override Visualization of Local Player
-            Also Visualize on the Raspi 
+        Gets the gameboard of the Gameobject and visualizes on the sensehat.
+
+        Parameters:
+            None
+
+        Returns:
+            Nothing 
         """
         #Visualzation for Sensehat
         board = self.game.get_board()
+        #Matrix for the sensehat
         pixel_matrix=[]
 
+        # adds an empty row with the no color so that the matrix is 8x8
         for i in range(8):
             pixel_matrix.append((0,0,0))
-        
+
+        #for every Row and for every column in the gameboard there will be the colors set dependend on the icon and added to the pixel_matrix
         for row in range(7):
             for col in range(8):
                 if row < 7 and col < 8:
@@ -99,7 +140,7 @@ class Player_Raspi_Local(Player_Local):
                     else:
                         pixel_matrix.append((0,0,0))
                 
-
+        #pixel_matrix gets set on the sensehat
         self.sense.set_pixels(pixel_matrix)
         
         
@@ -110,18 +151,23 @@ class Player_Raspi_Local(Player_Local):
 
     def make_move(self) -> int:
         """
-        Override make_move for Raspberry Pi input using the Sense HAT joystick.
+        Ovverrides make_move method of Local Player. 
         Uses joystick to move left or right and select a column.
+        If choice is made it gets checked by the check_move() method of the gameobject.
+
+        Parameters:
+            None
 
         Returns:
-            col (int):  Selected column (0...7)
+            col (int): the Selected column (0...7)
         """
         column = 0
         while True:
             self.sense.set_pixel(column,0,self.color)
             
             
-            
+            #watches the joystick events if left/right the method calls visualize_choice
+            #if the joystick event is middle it calls the check_move method of the gameobject
             for event in self.sense.stick.get_events():
                 
                 print(f"Joystick event: {event.direction}")
@@ -176,8 +222,14 @@ class Player_Raspi_Local(Player_Local):
     
     def celebrate_win(self) -> None:
         """
-        Celebrate CLI Win of Raspi player
-            Override Method of Local Player
+        If the player has won there will be a Message on the sensehat and after that a Matrix rain effect.
+        And it also gives the celebration on the CLI which is called from Local Player.
+
+        Parameters:
+            None
+
+        Returns:
+            Nothing
         """
         self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color, scroll_speed = 0.05)
 
@@ -212,9 +264,7 @@ class Player_Raspi_Local(Player_Local):
                 break
 
         
-        #self.sense.load_image("c4e4385986fd571.png")
-        #time.sleep(0.5)
-        #self.sense.show_message(f"{self.game.active_player['icon']} won")
+        
 
         # Optional: also do CLI celebration
         super().celebrate_win()

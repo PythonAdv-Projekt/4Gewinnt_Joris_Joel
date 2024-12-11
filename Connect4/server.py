@@ -18,7 +18,7 @@ class Connect4Server:
     """
     def __init__(self):
         """
-        Create a Connect4 Server on localhost (127.0.0.1)
+        Creates a Connect4 Server on localhost (127.0.0.1)
         - Add SWAGGER UI Documentation
         - Expose API Methods
         """
