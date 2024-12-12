@@ -273,3 +273,16 @@ class Player_Raspi_Remote(Player_Remote):
 
         # CLI celebration
         super().celebrate_win()
+
+        def loser(self) -> None:
+        """
+        If the player has lost, there will be a Message on the sensehat.
+
+        Parameters:
+            None
+
+        Returns:
+            Nothing
+        """
+
+        self.sense.show_message(f"Game over", text_colour = self.color, scroll_speed = 0.05)
