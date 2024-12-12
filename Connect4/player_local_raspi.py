@@ -99,7 +99,6 @@ class Player_Raspi_Local(Player_Local):
         Returns:
             Nothing
         """
-        print(column)
         #Clear previous selected column
         for col in range(8):
             self.sense.set_pixel(col, 0, (0,0,0))
