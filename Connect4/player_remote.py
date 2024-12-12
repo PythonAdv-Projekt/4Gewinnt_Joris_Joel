@@ -184,7 +184,7 @@ class Player_Remote(Player):
                     str(cell)
                     for cell in row
                 ))
-                print("\n")
+            print("\n")
         else:
             print(f"Request error {response.status_code}")
 
