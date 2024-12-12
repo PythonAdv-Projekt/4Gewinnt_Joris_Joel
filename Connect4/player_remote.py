@@ -142,7 +142,6 @@ class Player_Remote(Player):
 
                 ##if API request returns True, we return the column
                 if response.status_code == 200:
-                    print(f"{response}") 
                     return column
                     
                     
@@ -201,7 +200,7 @@ class Player_Remote(Player):
         """
         response = requests.get(f"{self.api_url}/connect4/status")
         response = response.json()
-        print(f"Congrats! Player {response.get('winner').get('icon')}, you have won the Game!")
+        print(f"\033[1mCongrats! Player {response.get('winner').get('icon')}, you have won the Game!\033[0m")
         
             
 

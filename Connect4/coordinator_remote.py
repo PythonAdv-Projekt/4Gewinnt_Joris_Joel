@@ -108,7 +108,7 @@ class Coordinator_Remote:
                         if self.on_raspi:
                             sleep(5)
                             self.player.sense.clear()
-                        print("You have lost the Game!")
+                        print("\033[1m" + "You have lost the Game!" + "\033[0m")
                         return
                     elif self.player.get_game_status().get("turn_number") == 2:
                         print("Your opponent registered to the game! Wait now till he made his first move.")
@@ -126,5 +126,5 @@ if __name__ == "__main__":
     api_url = "http://127.0.0.1:5000"
 
     # Initialize the Coordinator
-    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=True) #on_raspi=True when player on Raspberry Pi with SenseHat
+    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False) #on_raspi=True when player on Raspberry Pi with SenseHat
     c_remote.play()
