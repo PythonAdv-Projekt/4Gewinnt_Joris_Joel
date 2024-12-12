@@ -170,21 +170,17 @@ class Player_Raspi_Local(Player_Local):
             #if the joystick event is middle it calls the check_move method of the gameobject
             for event in self.sense.stick.get_events():
                 
-                print(f"Joystick event: {event.direction}")
                 if event.direction == "right" and event.action =="pressed":
                     if column < 7:
-                        print(event)
                         column += 1
                         self.visualize_choice(column)
                         time.sleep(0.1)
                 if event.direction == "left" and event.action == "pressed":
                     if column > 0:
-                        print(event)
                         column -= 1
                         self.visualize_choice(column)
                         time.sleep(0.1)
                 if event.direction == "middle" and event.action == "pressed":
-                    print(event)
 
                     #if check_move returns True, we check if the column has space left and the place the chip
                     if self.game.check_move(column, self.id): 

@@ -96,7 +96,6 @@ class Coordinator_Remote:
                     self.player.visualize()
                     #checking for a Win
                     if self.player.get_game_status().get("winner"):
-                        self.player.visualize()
                         self.player.celebrate_win()
                         return
                     print("Waiting on other Player to make his move...")
@@ -106,6 +105,9 @@ class Coordinator_Remote:
                         if self.on_raspi:
                             self.player.loser()
                         self.player.visualize()
+                        if self.on_raspi:
+                            sleep(5)
+                            self.player.sense.clear()
                         print("You have lost the Game!")
                         return
                     elif self.player.get_game_status().get("turn_number") == 2:

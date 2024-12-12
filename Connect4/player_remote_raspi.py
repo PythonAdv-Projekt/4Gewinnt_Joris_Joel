@@ -179,27 +179,22 @@ class Player_Raspi_Remote(Player_Remote):
             #if the joystick event is middle it sends an API request to valid the move
             for event in self.sense.stick.get_events():
                 
-                print(f"Joystick event: {event.direction}")
                 if event.direction == "right" and event.action =="pressed":
                     if column < 7:
-                        print(event)
                         column += 1
                         self.visualize_choice(column)
                         time.sleep(0.1)
                 if event.direction == "left" and event.action == "pressed":
                     if column > 0:
-                        print(event)
                         column -= 1
                         self.visualize_choice(column)
                         time.sleep(0.1)
                 if event.direction == "middle" and event.action == "pressed":
-                    print(event)
                     move = {"column": column, "player_id": f"{self.id}"}
                     response = requests.post(f"{self.api_url}/connect4/make_move", json = move)
 
                     #if API request returns True, we return the column
                     if response.status_code == 200:
-                        print(f"{response}")
                         return column
                 
                         
@@ -239,7 +234,7 @@ class Player_Raspi_Remote(Player_Remote):
         Returns:
             Nothing
         """
-        self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color, scroll_speed = 0.05)
+        self.sense.show_message(f"You won!", text_colour = self.color, scroll_speed = 0.05)
 
         # Create a 8x8 grid of black (background)
         black = (0, 0, 0)
