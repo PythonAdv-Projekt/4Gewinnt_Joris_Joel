@@ -71,6 +71,7 @@ class Coordinator_Remote:
         """ 
         Main function to play the game with two remote players.
 
+
         This method manages the game loop, where players take turns making moves,
         checks for a winner, and visualizes the game board.
 
@@ -92,7 +93,6 @@ class Coordinator_Remote:
                     self.player.visualize()
                     self.player.make_move()
                     self.player.visualize()
-                    print(self.player.get_game_status())
                     #checking for a Win
                     if self.player.get_game_status().get("winner"):
                         self.player.visualize()
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # pc_url = "http://172.19.176.1:5000"
     # pc_url = "http://10.147.97.97:5000"
     #api_url = "http://127.0.0.1:5000"
-    api_url = "http://192.168.43.4:5000"
+    api_url = "http://127.0.0.1:5000"
 
     # Initialize the Coordinator
     c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False) #on_raspi=True when player on Raspberry Pi with SenseHat
