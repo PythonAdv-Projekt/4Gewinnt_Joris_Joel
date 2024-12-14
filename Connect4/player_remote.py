@@ -39,14 +39,14 @@ class Player_Remote(Player):
 
 
         Returns:
-            Nothing
+            None
         
        """
         # Initialize id and icon from the abstract Player class
         super().__init__()  
 
         # Saves api_url to attribute self.api_url
-        self.api_url = api_url
+        self.api_url: str = api_url
         
     def register_in_game(self) -> str:
         """
@@ -95,7 +95,7 @@ class Player_Remote(Player):
         else:
             return False
 
-    def get_game_status(self)->dict:
+    def get_game_status(self) -> dict:
         """
         Gets the game's current status by making a Api request.
         which contains:
@@ -165,7 +165,7 @@ class Player_Remote(Player):
             None
         
         Returns:
-            Nothing
+            None
 
         """
 
@@ -195,7 +195,7 @@ class Player_Remote(Player):
             None
 
         Returns:
-            Nothing
+            None
 
         """
         response = requests.get(f"{self.api_url}/connect4/status")

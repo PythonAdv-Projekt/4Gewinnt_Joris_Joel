@@ -16,15 +16,15 @@ class Connect4Server:
         app (Flask):        Web Server Instance
 
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Creates a Connect4 Server on localhost (127.0.0.1)
         - Add SWAGGER UI Documentation
         - Expose API Methods
         """
 
-        self.game = Connect4()  # Connect4 game instance
-        self.app = Flask(__name__)  # Flask app instance
+        self.game: Connect4 = Connect4()  # Connect4 game instance
+        self.app: Flask = Flask(__name__)  # Flask app instance
 
         # Swagger UI Configuration
         SWAGGER_URL = '/swagger/connect4/'

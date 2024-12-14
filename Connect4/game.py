@@ -59,14 +59,14 @@ class Connect4:
             None
         
         """
-        self.Board:np.ndarray = np.zeros((7,8),dtype=object)
-        self.player1:dict = None
-        self.player2:dict = None
-        self.active_player:dict = {"id": None, "icon": None}
-        self.turncounter:int = 0
-        self.winner:dict = None
+        self.Board: np.ndarray = np.zeros((7,8),dtype=object)
+        self.player1: dict = None
+        self.player2: dict = None
+        self.active_player: dict = {"id": None, "icon": None}
+        self.turncounter: int = 0
+        self.winner: dict = None
         
-    def get_status(self):
+    def get_status(self) -> dict:
         """
         returns the status of the game with following information:
         - Who is the Active Player (icon and id)
@@ -89,7 +89,7 @@ class Connect4:
         
         return status
 
-    def register_player(self, player_id:uuid.UUID)->str:
+    def register_player(self, player_id:uuid.UUID) -> str:
         """ 
         Registers a Player with a uuid and Saves the Player to 
         a Attribut in form of a Dictionary which contains the player_id and the icon.
@@ -97,10 +97,10 @@ class Connect4:
         is registered.
         
         Parameters:
-            player_id (UUID)    Unique ID
+            player_id (UUID):Unique ID
 
         Returns:
-            icon (str):       Player Icon (or None if failed)
+            icon (str):Player Icon (or None if failed)
         """
         #checking if player1 is already registered
         if self.player1 is None:
@@ -120,7 +120,7 @@ class Connect4:
         else:
             return None
 
-    def get_board(self)-> np.ndarray:
+    def get_board(self) -> np.ndarray:
         """ 
         Returns the Current State of the Board.
 
@@ -140,11 +140,11 @@ class Connect4:
         and checks if the Player is allowed to make a move.
 
         Parameters:
-            col (int):      Selected Column of Coin Drop
-            player (str):   Player ID 
+            col (int):Selected Column of Coin Drop
+            player (str):Player ID 
         
         Returns:
-            bool: Returns a Bool if the Move is valid or not
+            bool:Returns a Bool if the Move is valid or not
         """
         
         #Checking if Id matches with Player who wants to make a move
@@ -161,7 +161,7 @@ class Connect4:
         
         return True
         
-    def update_status(self):
+    def update_status(self) -> None:
         """
         Updates the Values for the Status after a Succesfull move:
             - active player
@@ -173,7 +173,7 @@ class Connect4:
             None
         
         Returns:
-            Nothing
+            None
         """
 
         #checking if there's a winner
@@ -192,7 +192,7 @@ class Connect4:
                 self.active_player["id"] = self.player1["id"]
                 self.active_player["icon"] = self.player1["icon"]
 
-    def __detect_win(self)->bool:
+    def __detect_win(self) -> bool:
         """ 
         Internal method which detects if there are 4 Pieces in one Row horizontally, vertically
         or diagonally. And returns True if so.

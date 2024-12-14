@@ -31,26 +31,26 @@ class Coordinator_Local:
             on_raspi (bool):            If game is played on raspi (default False)
 
         Returns:
-            Nothing
+            None
 
         """
-        self.game = Connect4()
-        self.player1 = Player_Local(game = self.game)
-        self.player2 = Player_Local(game = self.game)
-        self.sense = None
+        self.game:Connect4 = Connect4()
+        self.player1:Player_Local = Player_Local(game = self.game)
+        self.player2:Player_Local = Player_Local(game = self.game)
+        self.sense:SenseHat = None
         
 
         if on_raspi:
             try:
                 from sense_hat import SenseHat
                 self.sense = SenseHat()
-                self.player1 = Player_Raspi_Local(game = self.game,sense = self.sense)
-                self.player2 = Player_Raspi_Local(game = self.game,sense = self.sense)
+                self.player1:Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
+                self.player2:Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
             except ImportError:
                 raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
         
 
-    def play(self):
+    def play(self) -> None:
         """ 
         Main function to run the game with two local players.
         
@@ -61,7 +61,7 @@ class Coordinator_Local:
             None
         
         Returns:
-            Nothing
+            None
 
         """
 

@@ -44,7 +44,7 @@ class Player_Local(Player):
         super().__init__()  
 
         # Saves Instance of game to Attribute self.game
-        self.game = kwargs['game']
+        self.game: Connect4 = kwargs['game']
         
     def register_in_game(self) -> str:
         """
@@ -81,7 +81,7 @@ class Player_Local(Player):
         else:
             return False
 
-    def get_game_status(self)->dict:
+    def get_game_status(self) -> dict:
         """
         Gets the game's current status by using the get_status() Method of the Game.
         which contains:
@@ -165,7 +165,7 @@ class Player_Local(Player):
             None
 
         Returns:
-            Nothing
+            None
 
         """
 

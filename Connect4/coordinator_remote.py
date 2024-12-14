@@ -25,7 +25,7 @@ class Coordinator_Remote:
             Main function to playe the game
     """
 
-    def __init__(self, api_url: str, on_raspi:bool) -> None:
+    def __init__(self, api_url:str, on_raspi:bool) -> None:
         """
         Initializes the Coordinator_Remote.
 
@@ -33,20 +33,20 @@ class Coordinator_Remote:
             api_url (str):      Address of Server, including Port
             on_raspi(bool):     True when player on raspi, False when not
         """
-        self.api_url = api_url
-        self.player = Player_Remote(api_url)
-        self.on_raspi = on_raspi
+        self.api_url: str = api_url
+        self.player: Player_Remote = Player_Remote(api_url)
+        self.on_raspi: bool = on_raspi
         
         if self.on_raspi:
             try:
                 from sense_hat import SenseHat
-                self.sense = SenseHat()
-                self.player = Player_Raspi_Remote(api_url = api_url,sense = self.sense)
+                self.sense: SenseHat = SenseHat()
+                self.player: Player_Raspi_Remote = Player_Raspi_Remote(api_url = api_url,sense = self.sense)
                 
             except ImportError:
                 raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
 
-    def wait_for_second_player(self):
+    def wait_for_second_player(self) -> None:
         """
         Waits for the second player to connect.
 
@@ -57,7 +57,7 @@ class Coordinator_Remote:
             None
         
         Returns:
-            Nothing
+            None
         """
         #the second player is registered when game_status gets returned
         if self.player.get_game_status():
@@ -68,7 +68,7 @@ class Coordinator_Remote:
         return False
         
 
-    def play(self):
+    def play(self) -> None:
         """ 
         Main function to play the game with two remote players.
 
@@ -80,7 +80,7 @@ class Coordinator_Remote:
             None
 
         Returns:
-            Nothing
+            None
         """
         #register the player into the game
         self.player.register_in_game()
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     # pc_url = "http://172.19.176.1:5000"
     # pc_url = "http://10.147.97.97:5000"
     #api_url = "http://127.0.0.1:5000"
-    api_url = "http://127.0.0.1:5000"
+    api_url = "http://192.168.43.4:5000"
 
     # Initialize the Coordinator
     c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False) #on_raspi=True when player on Raspberry Pi with SenseHat

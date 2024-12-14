@@ -58,11 +58,11 @@ class Player_Raspi_Local(Player_Local):
         except KeyError:
             raise ValueError(f"{type(self).__name__} requires a 'sense' (SenseHat instance) attribute")
 
-        self.color:list = None
+        self.color: list = None
         
 
     
-    def register_in_game(self):
+    def register_in_game(self) -> None:
         """
         Uses Registration Method of Local Player and adds a color to the Player dependend on
         the icon the registration reutrns.
@@ -71,7 +71,7 @@ class Player_Raspi_Local(Player_Local):
             None
 
         Returns:
-            Nothing
+            None
         """
         # Calling Registration Method of Local Player to get Icon
         self.icon = super().register_in_game()
@@ -88,16 +88,16 @@ class Player_Raspi_Local(Player_Local):
         
 
     
-    def visualize_choice(self, column:int)->None:
+    def visualize_choice(self, column:int) -> None:
         """ 
         Visualizes the selection Process by toggling the LED on the sensehat.
         Only toggles on the top row on the sensehat
 
         Parameters:
-            column (int):  selected Column during Selection Process
+            column (int): selected Column during Selection Process
         
         Returns:
-            Nothing
+            None
         """
         #Clear previous selected column
         for col in range(8):
@@ -115,7 +115,7 @@ class Player_Raspi_Local(Player_Local):
             None
 
         Returns:
-            Nothing 
+            None
         """
         #Visualzation for Sensehat
         board = self.game.get_board()
@@ -224,7 +224,7 @@ class Player_Raspi_Local(Player_Local):
             None
 
         Returns:
-            Nothing
+            None
         """
         self.sense.show_message(f"Player {self.color_text} won!", text_colour = self.color, scroll_speed = 0.05)
 

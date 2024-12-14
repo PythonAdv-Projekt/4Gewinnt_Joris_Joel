@@ -48,7 +48,7 @@ class Player_Raspi_Remote(Player_Remote):
             ValueError: If 'sense' is not provided in kwargs.
         """
         # Initialize the parent class (Player_Local)
-        kwargs['api_url']= api_url
+        kwargs['api_url'] = api_url
         super().__init__(**kwargs)
 
         # Extracts the SenseHat instance from kwargs 
@@ -57,11 +57,11 @@ class Player_Raspi_Remote(Player_Remote):
         except KeyError:
             raise ValueError(f"{type(self).__name__} requires a 'sense' (SenseHat instance) attribute")
 
-        self.color:tuple = None
+        self.color: tuple = None
         
 
     
-    def register_in_game(self)->None:
+    def register_in_game(self) -> None:
         """
         Rwgisters a player in the game by using the Method of Player Remote then assigns
         a colot to the player.
@@ -87,7 +87,7 @@ class Player_Raspi_Remote(Player_Remote):
         
 
     
-    def visualize_choice(self, column:int)->None:
+    def visualize_choice(self, column:int) -> None:
         """ 
         Visualizes the selection Process by toggling the LED on the sensehat.
         Only toggles on the top row on the sensehat 
@@ -96,7 +96,7 @@ class Player_Raspi_Remote(Player_Remote):
             column (int): Column during Selection Process
         
         Returns:
-            Nothing
+            None
         """
         #Clear previous selected column
         for col in range(8):
@@ -114,7 +114,7 @@ class Player_Raspi_Remote(Player_Remote):
             None
 
         Returns:
-            Nothing
+            None
         """
        
         #Gets the gameboard from the server and makes it to a array
@@ -231,7 +231,7 @@ class Player_Raspi_Remote(Player_Remote):
             None
 
         Returns:
-            Nothing
+            None
         """
         self.sense.show_message(f"You won!", text_colour = self.color, scroll_speed = 0.05)
 
@@ -276,7 +276,7 @@ class Player_Raspi_Remote(Player_Remote):
             None
 
         Returns:
-            Nothing
+            None
         """
 
         self.sense.show_message(f"Game over", text_colour = self.color, scroll_speed = 0.05)
