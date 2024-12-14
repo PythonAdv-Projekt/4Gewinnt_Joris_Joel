@@ -8,19 +8,45 @@ from game import Connect4
 
 class Connect4Server:
     """
-    Game Server
-        Runs on Localhost
-    
-    Attributes
-        game (Connect4):    Local Instance of Connect4 Game (with all game rules)
-        app (Flask):        Web Server Instance
+    Connect4Server: A Flask-based API server for playing Connect 4.
 
+    This server provides endpoints to manage a game of Connect 4, including player registration,
+    retrieving game status, viewing the board, and making moves. It also includes a Swagger UI.
+
+    Attributes:
+        game (Connect4): Instance of the Connect 4 game containing game logic and rules.
+        app (Flask): Flask application instance managing the server.
+
+    Endpoints:
+        /: Provides a welcome message.
+        /connect4/status: Retrieves the current game status.
+        /connect4/register: Allows a new player to register.
+        /connect4/board: Returns the current game board state.
+        /connect4/make_move: Allows a player to make a move.
+
+    Swagger Configuration:
+        URL: '/swagger/connect4/'
+        Static JSON File: '/static/swagger.json'
+
+    Methods:
+        setup_routes():
+                Defines API endpoints and their logic.
+        run(debug, host, port):
+                Starts the Flask server.
     """
+
     def __init__(self) -> None:
         """
-        Creates a Connect4 Server on localhost (127.0.0.1)
-        - Add SWAGGER UI Documentation
-        - Expose API Methods
+        Initializes the Connect4Server instance.
+
+        Sets up the Connect 4 game instance, Flask server, Swagger UI configuration,
+        and API endpoints.
+
+        Parameters:
+        None
+
+        Returns:
+        None
         """
 
         self.game: Connect4 = Connect4()  # Connect4 game instance
@@ -46,10 +72,23 @@ class Connect4Server:
         # Define API routes within the constructor
         self.setup_routes()
 
-    def setup_routes(self):
+    def setup_routes(self) -> None:
         """
-        Expose the following Methods
+        Defines API routes for the Connect 4 server.
+
+        Endpoints include:
+            - /connect4/status: Retrieve game status.
+            - /connect4/register: Register a new player.
+            - /connect4/board: Get the current board state.
+            - /connect4/make_move: Make a move in the game.
+        
+        Parameters:
+        None
+
+        Returns:
+        None
         """
+
         # Overall Description
         @self.app.route('/')
         def index():

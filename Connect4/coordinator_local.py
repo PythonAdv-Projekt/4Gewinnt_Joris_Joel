@@ -12,9 +12,9 @@ class Coordinator_Local:
 
 
     Attributes:
-        game (Connect4):    Local Instance of a Connect4 Game
-        player1 (Player_Local or Player_Raspi_Local):   Local Instance of a Player
-        player2 (Player_Local or Player_Raspi_Local):   Local Instance of a Player
+        game (Connect4): Local Instance of a Connect4 Game
+        player1 (Player_Local or Player_Raspi_Local): Local Instance of a Player
+        player2 (Player_Local or Player_Raspi_Local): Local Instance of a Player
 
     Methods:
         def play(self)
@@ -28,24 +28,24 @@ class Coordinator_Local:
         Initialize the Coordinator_Local with a Game and 2 Players
 
         Parameters:
-            on_raspi (bool):            If game is played on raspi (default False)
+            on_raspi (bool): If game is played on raspi (default False)
 
         Returns:
             None
 
         """
-        self.game:Connect4 = Connect4()
-        self.player1:Player_Local = Player_Local(game = self.game)
-        self.player2:Player_Local = Player_Local(game = self.game)
-        self.sense:SenseHat = None
+        self.game: Connect4 = Connect4()
+        self.player1: Player_Local = Player_Local(game = self.game)
+        self.player2: Player_Local = Player_Local(game = self.game)
+        self.sense: SenseHat = None
         
 
         if on_raspi:
             try:
                 from sense_hat import SenseHat
                 self.sense = SenseHat()
-                self.player1:Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
-                self.player2:Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
+                self.player1: Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
+                self.player2: Player_Raspi_Local = Player_Raspi_Local(game = self.game,sense = self.sense)
             except ImportError:
                 raise RuntimeError("SenseHat Library not available. Make sure you're on a Raspberry Pi")
         
