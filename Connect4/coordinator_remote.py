@@ -105,11 +105,13 @@ class Coordinator_Remote:
                         if self.on_raspi:
                             self.player.loser()
                         self.player.visualize()
+                        #Visualize the board for 5 more seconds after a win
                         if self.on_raspi:
                             sleep(5)
                             self.player.sense.clear()
                         print("\033[1m" + "You have lost the Game!" + "\033[0m")
                         return
+                    #check if second player has already registered
                     elif self.player.get_game_status().get("turn_number") == 2:
                         print("Your opponent registered to the game! Wait now till he made his first move.")
                         sleep(2)
