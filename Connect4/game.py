@@ -158,7 +158,6 @@ class Connect4:
         #Checking column has space left
         if self.Board[0, column] != 0: #Checks if the first row in the column isn't empty
             return False
-        
         return True
         
     def update_status(self) -> None:

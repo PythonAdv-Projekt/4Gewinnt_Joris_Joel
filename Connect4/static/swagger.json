@@ -43,15 +43,26 @@
                 }
               }
             }
+          },
+        "400":{
+          "description": "Not yet both players registered",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string"
+              }
+            }
           }
+        }
         }
       }
     },
     "/connect4/register": {
       "post": {
         "tags": ["connect4"],
-        "summary": "Register a player",
-        "description": "Register a new player using a unique player ID.",
+        "summary": "Registers a player",
+        "description": "Registers a new player using a unique player ID.",
         "consumes": ["application/json"],
         "parameters": [
           {
@@ -82,7 +93,7 @@
             }
           },
           "400": {
-            "description": "Error response"
+            "description": "Error response when no player ID was provided"
           }
         }
       }
@@ -117,8 +128,8 @@
     "/connect4/check_move": {
       "post": {
         "tags": ["connect4"],
-        "summary": "Check a Move, if legal, make it",
-        "description": "Make a move by specifying the column and player ID.",
+        "summary": "Checks a Move, if legal, it makes it",
+        "description": "Makes a move by specifying the column and player ID.",
         "consumes": ["application/json"],
         "parameters": [
           {
@@ -152,7 +163,7 @@
             }
           },
           "400": {
-            "description": "Illegal move or error"
+            "description": "Illegal move"
           }
         }
       }
