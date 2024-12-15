@@ -45,7 +45,7 @@
             }
           },
         "400":{
-          "description": "Not yet both players registered",
+          "description": "Unsuccessful response when not yet both players are registered",
           "schema": {
             "type": "object",
             "properties": {
@@ -93,7 +93,15 @@
             }
           },
           "400": {
-            "description": "Error response when no player ID was provided"
+            "description": "Error response when no player ID was provided",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "message":{
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -163,7 +171,16 @@
             }
           },
           "400": {
-            "description": "Illegal move"
+            "description": "Illegal move",
+            "schema": {
+              "type": "object",
+              "properties":{
+                "success": {
+                  "type": "boolean",
+                  "enum": [false]
+                }
+              }
+            }
           }
         }
       }

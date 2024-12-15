@@ -54,22 +54,22 @@ class Connect4Server:
 
         # Swagger UI Configuration
         SWAGGER_URL = '/swagger/connect4/'
-        API_URL = '/static/swagger.json'  # This should point to your static swagger.json file
+        API_URL = '/static/swagger.json'
         
         swaggerui_blueprint = get_swaggerui_blueprint(
             SWAGGER_URL,
             API_URL,
             config={  # Swagger UI config overrides
                 'app_name': "Connect 4 API",
-                'layout': "BaseLayout"  # You can choose other layouts
+                'layout': "BaseLayout"
             }
         )
 
-        # Register the Swagger UI blueprint
+        # Registers the Swagger UI blueprint
         self.app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 
-        # Define API routes within the constructor
+        # Defines API routes within the constructor
         self.setup_routes()
 
     def setup_routes(self) -> None:
