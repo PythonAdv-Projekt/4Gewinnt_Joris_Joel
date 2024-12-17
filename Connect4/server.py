@@ -128,6 +128,7 @@ class Connect4Server:
         def get_board():
             board = self.game.get_board().tolist()
             return jsonify({"board": board})
+        
 
 
             

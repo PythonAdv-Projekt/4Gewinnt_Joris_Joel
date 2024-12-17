@@ -25,7 +25,7 @@ class Coordinator_Remote:
             Main function to playe the game
     """
 
-    def __init__(self, api_url:str, on_raspi:bool) -> None:
+    def __init__(self, api_url:str, on_raspi:bool, bot:bool) -> None:
         """
         Initializes the Coordinator_Remote.
 
@@ -36,6 +36,7 @@ class Coordinator_Remote:
         self.api_url: str = api_url
         self.player: Player_Remote = Player_Remote(api_url)
         self.on_raspi: bool = on_raspi
+        self.bot: bool = bot
         
         if self.on_raspi:
             try:
@@ -92,12 +93,20 @@ class Coordinator_Remote:
                 if self.player.is_my_turn():
                     print("\033[1m" + "It's your turn!" + "\033[0m")
                     self.player.visualize()
-                    self.player.make_move()
-                    self.player.visualize()
-                    #checking for a Win
-                    if self.player.get_game_status().get("winner"):
-                        self.player.celebrate_win()
-                        return
+                    if self.bot:
+                        self.player.check_bot()
+                        self.player.visualize()
+                        #checking for a Win
+                        if self.player.get_game_status().get("winner"):
+                            self.player.celebrate_win()
+                            return
+                    else:
+                        self.player.make_move()
+                        self.player.visualize()
+                        #checking for a Win
+                        if self.player.get_game_status().get("winner"):
+                            self.player.celebrate_win()
+                            return
                     print("Waiting on other Player to make his move...")
                 #checking if the other player has won
                 elif not self.player.is_my_turn():
@@ -124,9 +133,9 @@ if __name__ == "__main__":
     # Uncomment the following lines to specify different URLs
     # pc_url = "http://172.19.176.1:5000"
     # pc_url = "http://10.147.97.97:5000"
-    #api_url = "http://127.0.0.1:5000"
-    api_url = "http://192.168.43.4:5000"
+    api_url = "http://127.0.0.1:5000"
+   # api_url = "http://192.168.43.4:5000"
 
     # Initialize the Coordinator
-    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False) #on_raspi=True when player on Raspberry Pi with SenseHat
+    c_remote = Coordinator_Remote(api_url=api_url, on_raspi=False, bot=True) #on_raspi=True when player on Raspberry Pi with SenseHat
     c_remote.play()
