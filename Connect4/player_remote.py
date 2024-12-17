@@ -157,7 +157,7 @@ class Player_Remote(Player):
                 # ValueError is generated when e.g. the inpust is not an integer.
                 print("Invalid input: Please enter a number between 0-7")
 
-    def check_bot(self):
+    def make_move_with_bot(self):
         column = self.bot()
         print(column)
         move = {"column": column, "player_id": f"{self.id}"}

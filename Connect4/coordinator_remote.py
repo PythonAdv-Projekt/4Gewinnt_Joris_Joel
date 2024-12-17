@@ -94,7 +94,7 @@ class Coordinator_Remote:
                     print("\033[1m" + "It's your turn!" + "\033[0m")
                     self.player.visualize()
                     if self.bot:
-                        self.player.check_bot()
+                        self.player.make_move_with_bot()
                         self.player.visualize()
                         #checking for a Win
                         if self.player.get_game_status().get("winner"):
