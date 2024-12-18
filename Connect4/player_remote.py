@@ -177,20 +177,17 @@ class Player_Remote(Player):
             board_np = np.array(board, dtype=object)
             rows , cols = board_np.shape
 
-            #1. Checking for Winning or Blocking moves
+            #1. Checking for Winning moves
             #horizontally
             for row in range(rows):
                 for col in range(cols - 3):  # Look at 4-cell sequences
                     h_myself = 0
-                    h_opponent = 0
                     h_free_col = None
 
                     for i in range(4):  # Check each cell in the 4-cell sequence
                         if board_np[row, col + i] == active_player_icon:
                             h_myself += 1
-                        elif board_np[row, col + i] != 0: 
-                            h_opponent += 1
-                        else:  # Empty
+                        elif board_np[row, col + i] == 0:  # Empty
                             h_free_col = col + i
 
                     # Check if there are 3 of the same chips and one free space
@@ -198,75 +195,113 @@ class Player_Remote(Player):
                         if row == rows - 1 or board_np[row + 1, h_free_col] != 0:  # check if there is no 'air'
                             return h_free_col 
 
-                    if h_opponent == 3 and h_free_col is not None:  # Opponent can win
-                        if row == rows - 1 or board_np[row + 1, h_free_col] != 0:  # chekc if there is no 'air'
-                            return h_free_col  # Block the opponent
-
             #vertically
             for col in range(cols):
                 for row in range(rows - 3): 
                     v_myself = 0
-                    v_opponent = 0
 
                     for i in range(4):  # Check each cell in the 4-cell sequence
                         if board_np[row + i, col] == active_player_icon:
                             v_myself += 1
-                        elif board_np[row + i, col] != 0:
-                            v_opponent += 1
 
                     if v_myself == 3 and board_np[row, col] == 0:  # Active player can win
                         return col 
-
-                    if v_opponent == 3 and board_np[row, col] == 0:  # Opponent can win
-                        return col  # Block the opponent
 
             #diagonally (left to right)
             for col in range(cols - 3):
                 for row in range(rows - 3):
                     d_lr_myself = 0
-                    d_lr_opponent = 0
                     d_lr_free_row, d_lr_free_col = None, None
 
                     for i in range(4):  # Check each cell in the diagonal
                         if board_np[row + i, col + i] == active_player_icon:
                             d_lr_myself += 1
-                        elif board_np[row + i, col + i] != 0:
-                            d_lr_opponent += 1
-                        else:  # Empty
+                        elif board_np[row + i, col + i] == 0:
                             d_lr_free_row, d_lr_free_col = row + i, col + i
 
                     if d_lr_myself == 3 and d_lr_free_row is not None:
                         if d_lr_free_row == rows - 1 or board_np[d_lr_free_row + 1, d_lr_free_col] != 0:  # check that there's no 'air'
                             return d_lr_free_col  # Return column to place the chip
 
-                    if d_lr_opponent == 3 and d_lr_free_row is not None:
-                        if d_lr_free_row == rows - 1 or board_np[d_lr_free_row + 1, d_lr_free_col] != 0:  # check that there's no 'air'
-                            return d_lr_free_col  # Block opponent
-
             # diagonally right to left
             for col in range(3, cols):
                 for row in range(rows - 3):
                     d_rl_myself = 0
-                    d_rl_opponent = 0
                     d_rl_free_row, d_rl_free_col = None, None
 
                     for i in range(4):  # Check each cell in the diagonal
                         if board_np[row + i, col - i] == active_player_icon:
                             d_rl_myself += 1
-                        elif board_np[row + i, col - i] != 0:
-                            d_rl_opponent += 1
-                        else:  # Empty
+                        elif board_np[row + i, col - i] == 0:
                             d_rl_free_row, d_rl_free_col = row + i, col - i
 
                     if d_rl_myself == 3 and d_rl_free_row is not None:
                         if d_rl_free_row == rows - 1 or board_np[d_rl_free_row + 1, d_rl_free_col] != 0:  # check that there's no 'air'
                             return d_rl_free_col
+                        
+
+            #2. Checking for blocking moves
+            #horizontally
+            for row in range(rows):
+                for col in range(cols - 3):  # Look at 4-cell sequences
+                    h_opponent = 0
+                    h_free_col = None
+
+                    for i in range(4):  # Check each cell in the 4-cell sequence
+                        if board_np[row, col + i] != 0 and board_np[row, col + i] != active_player_icon: 
+                            h_opponent += 1
+                        elif board_np[row, col + i] == 0:  # Empty
+                            h_free_col = col + i
+
+                    if h_opponent == 3 and h_free_col is not None:  # Opponent can win
+                        if row == rows - 1 or board_np[row + 1, h_free_col] != 0:  # check if there is no 'air'
+                            return h_free_col  # Block the opponent
+                        
+            #vertically
+            for col in range(cols):
+                for row in range(rows - 3): 
+                    v_opponent = 0
+
+                    for i in range(4):  # Check each cell in the 4-cell sequence
+                        if board_np[row + i, col] != active_player_icon and board_np[row + i, col] != 0:
+                            v_opponent += 1
+
+                    if v_opponent == 3 and board_np[row, col] == 0:  # Opponent can win
+                        return col  # Block the opponent
+                    
+            #diagonally (left to right)
+            for col in range(cols - 3):
+                for row in range(rows - 3):
+                    d_lr_opponent = 0
+                    d_lr_free_row, d_lr_free_col = None, None
+
+                    for i in range(4):  # Check each cell in the diagonal
+                        if board_np[row + i, col + i] != active_player_icon and board_np[row + i, col + i] != 0:
+                            d_lr_opponent += 1
+                        elif board_np[row + i, col + i] == 0:  # Empty
+                            d_lr_free_row, d_lr_free_col = row + i, col + i
+
+                    if d_lr_opponent == 3 and d_lr_free_row is not None:
+                        if d_lr_free_row == rows - 1 or board_np[d_lr_free_row + 1, d_lr_free_col] != 0:  # check that there's no 'air'
+                            return d_lr_free_col  # Block opponent
+                        
+            # diagonally right to left
+            for col in range(3, cols):
+                for row in range(rows - 3):
+                    d_rl_opponent = 0
+                    d_rl_free_row, d_rl_free_col = None, None
+
+                    for i in range(4):  # Check each cell in the diagonal
+                        if board_np[row + i, col - i] != active_player_icon and board_np[row + i, col - i] != 0:
+                            d_rl_opponent += 1
+                        elif board_np[row + i, col - i] == 0:
+                            d_rl_free_row, d_rl_free_col = row + i, col - i
 
                     if d_rl_opponent == 3 and d_rl_free_row is not None:
                         if d_rl_free_row == rows - 1 or board_np[d_rl_free_row + 1, d_rl_free_col] != 0:  # check that there's no 'air'
                             return d_rl_free_col  # Block opponent
 
-            #2. Checking for pairs
+            #3. Checking for pairs
             # horizontally           
             for row in range(rows):
                 for col in range(cols - 2):
@@ -297,12 +332,11 @@ class Player_Remote(Player):
             # vertically
             for col in range(cols):
                 for row in range(rows - 2):  # Look at 3-cell vertical sequences
-                    if board_np[row, col] == active_player_icon and board_np[row + 1, col] == active_player_icon:
-                        if board_np[row + 2, col] == 0:  # check if there's free space on top
+                    if board_np[row + 1, col] == active_player_icon and board_np[row + 2, col] == active_player_icon:
+                        if board_np[row, col] == 0:  # check if there's free space on top
                             return col  # Place chip to form a three-in-a-row (column)
 
-                    if board_np[row, col] != 0 and board_np[row + 1, col] != 0 and board_np[row, col] != active_player_icon:
-                        if board_np[row + 2, col] == 0:  # Free space to block
+                    if board_np[row + 1, col] != 0 and board_np[row + 1, col] != active_player_icon and board_np[row + 2, col] != 0 and board_np[row + 2, col] != active_player_icon and board_np[row, col] == 0:
                             return col  # Block the opponent
                         
             # diagonally (left to right)
@@ -352,7 +386,7 @@ class Player_Remote(Player):
                         if free_row == rows - 1 or board_np[free_row + 1, free_col] != 0:  # no air
                             return free_col  # Block the opponent's 3-in-a-row
                         
-            # 3. Move when none of the above two is the case and centre is free at the bottom
+            # 4. Move when none of the above two is the case and centre is free at the bottom
 
             if board_np[0, 3] == 0 and board_np[0,4] == 0:  # Checks if the two center columns are free at the bottom
                 return random.randrange(3,5) #3 or 4 (random)
@@ -361,7 +395,7 @@ class Player_Remote(Player):
             if board_np[0, 3] == 0:  # center left column
                 return 3
             
-            # 4. Move when none of the above is the case (random move)
+            # 5. Move when none of the above is the case (random move)
             valid_cols = [col for col in range(cols) if board_np[0, col] == 0]
             if valid_cols:
                 return random.choice(valid_cols)
